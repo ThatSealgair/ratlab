@@ -1,6 +1,34 @@
 /* Library file to set defaults for the language.
  */
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[allow(missing_docs)]
+#[serde(tag = "type")]
+pub enum TokenType {
+  // Logical or Boolean types
+  Bool,
+  Conditional(String),
+  Arithmetic(String),
+  // Primitive Types
+  Char,
+  Single,
+  Double,
+  Int8,
+  Uint8,
+  Int16,
+  Uint16,
+  Int32,
+  Uint32,
+  Int64,
+  Uint64,
+  Identifier(String),
+  Equals,
+  SemiColon,
+  Comma,
+  End,
+  Indentation(bool),
+}
+
 pub mod glitter {
     pub const INDENT: &str = "\t  ";
     pub const INDEX_OFFSET: i8 = 2;
