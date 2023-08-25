@@ -30,16 +30,39 @@ pub enum TokenType {
   Indentation(bool),
 }
 
-impl From<String> for TokenType {
-  fn from(other: String) -> TokenType {
-    TokenType::Identifier(other)
+fn tokenize_string(data: &str) -> Result<(Vec<TokenType>, usize)> {
+  let mut tokens = Vec::new();
+  let mut line = Vec::new()
+  let mut index = 0;
+
+  for ch in data.chars() {
+    let mut wasWhitespace = false;
+    let mut whitespaceCount = 0;
+    
+    if (ch.is_whitespace()) {
+      if (!wasWhitespace) {
+        tokens.push(line);
+        line.clear();
+      }
+
+      whitespaceCount += 1;
+      wasWhitespace = true;
+    }
+    else {
+      if (wasWhitespace) {
+        if (whitespaceCount == 6) {
+          tokens.push(TokenType::Indentation(true));
+        }
+        else {
+          tokens.push(TokenType::Indentation(false));
+        }
+        whitespaceCount = 0;
+        wasWhitespace = false;
+      }
+
+      line.push(ch);
+    }
   }
+
+  index += 1;
 }
-
-impl<'a> From<&'a str> for TokenType {
-  fn from(other: &'a str) -> TokenType {
-    TokenType::Identifier(other.to_string())
-  }
-}
-
-
