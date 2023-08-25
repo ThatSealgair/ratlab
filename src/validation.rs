@@ -2,7 +2,7 @@
  */ 
 
 // Library imports
-use ratlab::header::*;
+use crate::header::*;
 
 /* Main function for token validation.
  */

@@ -1,5 +1,5 @@
-use ratlab::input::*;
-use ratlab::header::*;
+use ratlib::input::*;
+use ratlib::header::*;
 
 fn main() {
     let lines: Vec<String> = ratlab_input("file");

@@ -1,6 +1,6 @@
 /// tokeniser for ratlab
 
-pub mod header;
+use crate::header;
 
 macro_rules! assign_token {
     ($is_token:expr, $tokens:expr, $token:expr, $token_type:path) => {
