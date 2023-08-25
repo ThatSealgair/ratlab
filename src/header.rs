@@ -32,6 +32,7 @@ pub enum TokenType {
 pub mod glitter {
     pub const INDENT: &str = "\t  ";
     pub const INDEX_OFFSET: i8 = 2;
+    pub const COMMENT: &str = "%";
 }
 
 pub mod types {
