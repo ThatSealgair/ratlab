@@ -4,31 +4,36 @@
 //#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 //#[allow(missing_docs)]
 //#[serde(tag = "type")]
-
-#[derive(Debug, Clone, PartialEq)]
 pub enum TokenType {
-  // Logical or Boolean types
-  Bool,
-  Conditional(String),
-  Arithmetic(String),
-  // Primitive Types
-  Char,
-  Single,
-  Double,
-  Int8,
-  Uint8,
-  Int16,
-  Uint16,
-  Int32,
-  Uint32,
-  Int64,
-  Uint64,
-  Identifier(String),
-  Equals,
-  SemiColon,
-  Comma,
-  End,
-  Indentation(bool),
+    // Logical or Boolean types
+    Bool,
+    Conditional(String),
+    Arithmetic(String),
+    // Primitive Types
+    Char,
+    Single,
+    Double,
+    Int8,
+    Uint8,
+    Int16,
+    Uint16,
+    Int32,
+    Uint32,
+    Int64,
+    Uint64,
+    // Syntax
+    Tab,
+    Space,
+    SemiColon,
+    Period,
+    LeftBrace,
+    RightBrace,
+    LeftBracket,
+    RightBracket,
+    Colon,
+    Comma,
+    Equals,
+    Identifier(String),
 }
 
 pub mod glitter {
@@ -74,7 +79,8 @@ pub mod math_operator {
     pub const TIMES: &str = "*";
     pub const DIVIDE: &str = "/";
     pub const POWER: &str = "^";
-    pub const ELEMENT_WISE: &str = ".";
+    // To be constructed later from period
+    // pub const ELEMENT_WISE: &str = ".";
 }
 
 pub mod statements {
@@ -88,4 +94,18 @@ pub mod statements {
     pub const DEFAULT: &str = "otherwise";
     pub const FN: &str = "function";
     pub const CLOSE: &str = "end";
+}
+
+pub mod syntax {
+    pub const TAB: char = '\t';
+    pub const SPACE: char = ' ';
+    pub const SEMI_COLON: char = ';';
+    pub const PERIOD: char = '.';
+    pub const LEFT_BRACE: char = '(';
+    pub const RIGHT_BRACE: char = ')';
+    pub const LEFT_BRACKET: char = '{';
+    pub const RIGHT_BRACKET: char = '}';
+    pub const COLON: char = ':';
+    pub const COMMA: char = ',';
+    pub const EQUALS: char = '=';
 }
