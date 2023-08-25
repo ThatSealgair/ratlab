@@ -21,3 +21,40 @@ pub mod types {
     pub const DOUBLE: &str = "do-flo";
     pub const STRING: &str = "&ret_hc";
 }
+
+pub mod conditional {
+    pub const AND: &str = "&";
+    pub const NOT: &str = "~";
+    pub const OR: &str = "|";
+    pub const XOR: &str = "xor";
+    pub const TRUE: &str = "true";
+    pub const FALSE: &str = "false";
+    pub const LESS: &str = "<";
+    pub const GREATER: &str = ">";
+    pub const EQUALS: &str = "==";
+    pub const LESS_EQ: &str = "<=";
+    pub const GREATER_EQ: &str = ">=";
+    pub const NOT_EQ: &str = "~=";
+}
+
+pub mod math_operator {
+    pub const PLUS: &str = "+";
+    pub const MINUS: &str = "-";
+    pub const TIMES: &str = "*";
+    pub const DIVIDE: &str = "/";
+    pub const POWER: &str = "^";
+    pub const ELEMENT_WISE: &str = ".";
+}
+
+pub mod statements {
+    pub const WHILE: &str = "while";
+    pub const FOR: &str = "for";
+    pub const IF: &str = "if";
+    pub const ELIF: &str = "elseif";
+    pub const ELSE: &str = "else";
+    pub const SWITCH: &str = "switch";
+    pub const CASE: &str = "case";
+    pub const DEFAULT: &str = "otherwise";
+    pub const FN: &str = "function";
+    pub const CLOSE: &str = "end";
+}
