@@ -1,3 +1,11 @@
+mod input;
+
+use crate::input::*;
+
 fn main() {
-    println!("Hello, world!");
+    let lines: Vec<String> = ratlab_input("file");
+
+    for line in lines.iter() {
+        println!("{}", line);
+    }
 }
