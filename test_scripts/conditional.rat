@@ -1,0 +1,25 @@
+% ratlab program to check the functionality of conditional statements
+
+% Sets two variables to compare
+8nybl-int a = 12;
+8nybl-int b = 65;
+
+% Conditional statement that should output "90 > b"
+if a < 10
+      disp("a < 10");
+elseif 90 > b
+      disp("90 > b");
+elseif a <= b
+      disp ("a <= b");
+end
+
+% Sets two more variables to compare
+8nybl-int c = 12345;
+8nybl-int d = 54321;
+
+% Conditional that should output "xor working right"
+if (a <= c) xor (b < d)
+      disp("(a <= c) xor (b < d)");
+else
+      disp("xor working right");
+end

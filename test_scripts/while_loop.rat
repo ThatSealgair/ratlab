@@ -1,0 +1,14 @@
+% ratlab program to test functionality of a while loop
+
+% Sets initial values
+unt_b8 counter = 0;
+unt_8*8b fact = 1;
+
+% Finds the value of 10!
+while counter < 10
+      counter = counter + 1;
+      fact = fact * counter;
+end
+
+% Should print 3628800
+disp(fact);

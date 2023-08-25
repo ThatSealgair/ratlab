@@ -1,0 +1,7 @@
+% Hello World program for testing of ratlab
+
+% Declare string variable with value "Hello, World!"
+&ret_hc text = "Hello, World!";
+
+% Prints string to terminal
+disp(text);

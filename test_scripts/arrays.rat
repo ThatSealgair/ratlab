@@ -1,0 +1,7 @@
+% ratlab function to work with arrays
+
+% Define array [3, 4, 5, 6]
+do-flo array[4] = [3:6];
+
+% Print the 2nd element (4)
+disp(array(3));
