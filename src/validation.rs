@@ -1,9 +1,8 @@
 /* Token validation for ratlab
  */ 
-mod header;
 
 // Library imports
-use crates::header::*;
+use ratlab::header::*;
 
 /* Main function for token validation.
  */

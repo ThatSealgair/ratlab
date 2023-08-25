@@ -1,8 +1,5 @@
-mod input;
-mod header;
-
-use crate::input::*;
-use crate::header::*;
+use ratlab::input::*;
+use ratlab::header::*;
 
 fn main() {
     let lines: Vec<String> = ratlab_input("file");
@@ -11,6 +8,9 @@ fn main() {
     println!("----------");
 
     for line in lines.iter() {
-        println!("{}", line);
+        for string in line.lines() {
+            print!("{}", string);
+        }
+        //println!("");
     }
 }
