@@ -1,9 +1,11 @@
 /* Library file to set defaults for the language.
  */
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[allow(missing_docs)]
-#[serde(tag = "type")]
+//#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+//#[allow(missing_docs)]
+//#[serde(tag = "type")]
+
+#[derive(Debug, Clone, PartialEq)]
 pub enum TokenType {
   // Logical or Boolean types
   Bool,
