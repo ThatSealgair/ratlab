@@ -102,12 +102,12 @@ pub enum ArithmeticOperator {
 }
 
 impl ArithmeticOperator {
-    pub fn to_char(&self) -> char {
+    pub fn to_string(&self) -> &str {
         match self {
-            ArithmeticOperator::Plus => '+',
-            ArithmeticOperator::Minus => '-',
-            ArithmeticOperator::Times => '/',
-            ArithmeticOperator::Power => '^',
+            ArithmeticOperator::Plus => "+",
+            ArithmeticOperator::Minus => "-",
+            ArithmeticOperator::Times => "/",
+            ArithmeticOperator::Power => "^",
         }
     }
 }

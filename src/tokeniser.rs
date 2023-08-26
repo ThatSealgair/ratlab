@@ -68,6 +68,88 @@ fn statement_token(data: &str) -> Result<TokenType, bool> {
     }
 }
 
+fn arithmetic_token(data: &str) -> Result<TokenType, bool> {
+    let plus = ArithmeticOperator::Plus.to_string();
+    let minus = ArithmeticOperator::Minus.to_string();
+    let times = ArithmeticOperator::Times.to_string();
+    let power = ArithmeticOperator::Power.to_string();
+
+    match data {
+        plus => {
+            Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Plus))
+        }
+        minus => {
+            Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Minus))
+        }
+        times => {
+            Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Times))
+        }
+        power => {
+            Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Power))
+        }
+        _ => {
+            Err(false)
+        }
+    }
+}
+
+fn conditional_token(data: &str) -> Result<TokenType, bool> {
+    let and = Conditional::And.to_string();
+    let not = Conditional::Not.to_string();
+    let or = Conditional::Not.to_string();
+    let xor = Conditional::Xor.to_string();
+    let true_str = Conditional::True.to_string();
+    let false_str = Conditional::False.to_string();
+    let less = Conditional::Less.to_string();
+    let greater = Conditional::Greater.to_string();
+    let equals = Conditional::Equals.to_string();
+    let less_eq = Conditional::LessEq.to_string();
+    let great_eq = Conditional::GreaterEq.to_string();
+    let not_eq = Conditional::NotEq.to_string();
+
+    match data {
+        and => {
+            Ok(TokenType::Conditional(Conditional::And))
+        },
+        not => {
+            Ok(TokenType::Conditional(Conditional::Not))
+        },
+        or => {
+            Ok(TokenType::Conditional(Conditional::Or))
+        },
+        xor => {
+            Ok(TokenType::Conditional(Conditional::Xor))
+        },
+        true_str => {
+            Ok(TokenType::Conditional(Conditional::True))
+        },
+        false_str => {
+            Ok(TokenType::Conditional(Conditional::False))
+        },
+        less => {
+            Ok(TokenType::Conditional(Conditional::Less))
+        },
+        greater => {
+            Ok(TokenType::Conditional(Conditional::Greater))
+        },
+        equals => {
+            Ok(TokenType::Conditional(Conditional::Equals))
+        },
+        less_eq => {
+            Ok(TokenType::Conditional(Conditional::LessEq))
+        },
+        great_eq => {
+            Ok(TokenType::Conditional(Conditional::GreaterEq))
+        },
+        not_eq => {
+            Ok(TokenType::Conditional(Conditional::NotEq))
+        },
+        _ => {
+            Err(false)
+        },
+    }
+}
+
 fn tokenize_string(data: &str) -> TokenType {
     let statement = statement_token(data);
 
