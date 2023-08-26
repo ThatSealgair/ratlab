@@ -196,6 +196,8 @@ pub mod header {
         pub const PERIOD: char = '.';
         pub const COMMA: char = ',';
         pub const EQUALS: char = '=';
+        pub const QUOTE: char = '\'';
+        pub const DOUBLE_QUOTE = '"';
         pub const LEFT_BRACE: char = '{';
         pub const RIGHT_BRACE: char = '}';
         pub const LEFT_BRACKET: char = '(';
