@@ -11,18 +11,7 @@ pub mod stdlib;
 pub mod header {
 pub enum TokenType {
     // Primitive Types
-    Bool,
-    Char,
-    Single,
-    Double,
-    Int8,
-    Uint8,
-    Int16,
-    Uint16,
-    Int32,
-    Uint32,
-    Int64,
-    Uint64,
+    PrimitiveType(PrimitiveType),
     // Syntax
     Syntax(Syntax),
     Statements(Statements),
@@ -38,6 +27,22 @@ impl TokenType {
         return "he he poo poo"
     }
 }
+
+pub enum PrimitiveType {
+    BOOL,
+    CHAR,
+    SINGLE,
+    DOUBLE,
+    INT8,
+    UINT8,
+    INT16,
+    UINT16,
+    INT32,
+    UINT32,
+    INT64,
+    UINT64,
+}
+
 
 pub mod glitter {
     pub const INDENT: &str = "\t  ";

@@ -2,20 +2,47 @@
 
 use crate::header::*;
 
-fn tokenize_type(data: &str) -> TokenType {
+fn tokenize_type(data: &str) -> Result<TokenType, bool> {
     match data {
-        CHAR => return TokenType::Char,
-        BOOL => return TokenType::Bool,
-        INT_8 => return TokenType::Int8,
-        UINT_8 => return TokenType::Uint8,
-        INT_16 => return TokenType::Int16,
-        UINT_16 => return TokenType::Uint16,
-        INT_32 => return TokenType::Int32,
-        UINT_32 => return TokenType::Uint32,
-        INT_64 => return TokenType::Int64,
-        UINT_64 => return TokenType::Uint64,
-        FLOAT => return TokenType::Single,
-        DOUBLE => return TokenType::Double,
+        CHAR => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::CHAR))
+        },
+        BOOL => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::BOOL))
+        },
+        INT_8 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::INT8))
+        },
+        UINT_8 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::UINT8))
+        },
+        INT_16 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::INT16))
+        },
+        UINT_16 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::UINT16))
+        },
+        INT_32 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::INT32))
+        },
+        UINT_32 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::UINT32))
+        },
+        INT_64 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::INT64))
+        },
+        UINT_64 => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::UINT64))
+        },
+        FLOAT => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::SINGLE))
+        },
+        DOUBLE => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::DOUBLE))
+        },
+        _ => {
+            Err(false)
+        },
     }
 }
 
@@ -169,7 +196,14 @@ fn tokenize_string(data: &str) -> TokenType {
                 return token_conditional
             }
             else {
-                return TokenType::Identifier(data.to_string())
+
+                let primitive = tokenize_type(data);
+
+                if let Ok(token_primive) = primitive {
+                    return token_primive
+                }
+                else {
+                    return TokenType::Identifier(data.to_string())
             }
         }
     }
