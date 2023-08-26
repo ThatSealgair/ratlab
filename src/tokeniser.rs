@@ -217,8 +217,7 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
                         token.clear();
                         is_token = false;
                     }
-                    let symbol = Syntax::Tab;
-                    array.push(TokenType::Syntax(symbol));
+                    array.push(TokenType::Syntax(Syntax::Tab));
                 },
                 SPACE => {
                     if is_token {
@@ -259,7 +258,7 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
                     }
                     array.push(TokenType::Syntax(Syntax::Colon));
                 },
-                PEROID => {
+                PERIOD => {
                     if is_token {
                         array.push(
                             tokenize_string(token

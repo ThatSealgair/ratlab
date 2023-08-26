@@ -21,7 +21,14 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) {
                     println!("New line!");
                 },
                 TokenType::Syntax(_) => {
-                    println!("Syntax!");
+                    match &token {
+                        TokenType::Syntax(Syntax::Tab) => println!("Tab!"),
+                        TokenType::Syntax(Syntax::Space) => println!("Space!"),
+                        TokenType::Syntax(Syntax::Colon) => println!("Colon!"),
+                        TokenType::Syntax(Syntax::Comma) => println!("Comma!"),
+                        _ => println!("Other Syntax!"),
+                    }
+                    println!("Syntax! {}", token.to_string());
                 },
                 TokenType::PrimitiveType(_) => {
                     println!("PrimitiveType")
