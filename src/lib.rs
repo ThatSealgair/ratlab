@@ -11,6 +11,7 @@ pub mod stdlib;
 pub mod header {
 pub enum TokenType {
     // Primitive Types
+    Bool,
     Char,
     Single,
     Double,

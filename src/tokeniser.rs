@@ -1,37 +1,13 @@
 /// tokeniser for ratlab
 
-use crate::header;
-
-macro_rules! assign_token {
-    ($is_token:expr, $tokens:expr, $token:expr, $token_type:path) => {
-        if $is_token {
-            $tokens.push(&$token.into_iter().collect::<String>());
-            $token.clear();
-            $is_token = false;
-        }
-        $tokens.push($token_type);
-    };
-}
-
-macro_rules! assign_token_two {
-    ($is_token:expr, $tokens:expr, $token:expr, $($token_type:tt)*) => {
-        if $is_token {
-            $tokens.push(&$token.into_iter().collect::<String>());
-            $token.clear();
-            $is_token = false;
-        }
-        $tokens.push($token_type);
-    };
-}
+use crate::header::*;
 
 fn tokenize_type(data: &str) -> TokenType {
-    use header::types::*;
-
     match data {
         CHAR => return TokenType::Char,
         BOOL => return TokenType::Bool,
         INT_8 => return TokenType::Int8,
-        UINT_8 => return TokenTyp::Uint8,
+        UINT_8 => return TokenType::Uint8,
         INT_16 => return TokenType::Int16,
         UINT_16 => return TokenType::Uint16,
         INT_32 => return TokenType::Int32,
@@ -43,62 +19,167 @@ fn tokenize_type(data: &str) -> TokenType {
     }
 }
 
-fn tokenize_conditionals(data: &str) -> TokenType {
-  use conditional::*;
-
-  return TokenType::Conditional(data.to_string())
-}
-
-fn tokenize_arithmetic(data: &str) -> TokenType {
-  use math_operator::*;
-
-  return TokenType::Arithmetic(data.to_string())
-}
-
 
 fn tokenize_string(data: &str) -> TokenType {
-    use types::*;
-    use conditional::*;
-    use math_operator::*;
-    use statements::*;
-
-    match data {
-        CHAR | BOOL | INT_8 | UINT_8 | UINT_8 | INT_16 | | UINT_16 | INT_32 | UINT_32 | INT_64 | UINT_64 | FLOAT | 
-            DOUBLE | STRING => {
-            return tokenize_type(data)
-        },
-        AND | NOT | OR | XOR | TRUE | FALSE | LESS | GREATER | EQUALS | LESS_EQ | GREATER_EQ | NOT_EQ => {
-            return tokenize_conditionals(data)
-        },
-        PLUS | MINUS | TIMES | DIVIDE | POWER | ELEMENT_WISE => {
-        return tokenize_arithmetic(data)
-        },
-        WHILE | FOR | IF | ELIF | ELSE | SWITCH | CASE | DEFAULT | FN | CLOSE => {
-        return tokenize_statement(data)
-        },
-        _ => return TokenType::Identifier(data.to_string()),
-    } 
+    return TokenType::Identifier(data.to_string())
 }
 
 
 fn tokenize(data: Vec<String>) -> Vec<TokenType> {
-    let mut tokens = Vec::new();
+    let mut tokens: Vec<TokenType> = Vec::new();
 
     for line in data.iter() {
-        let mut isToken = false;
-        let mut hasTab = false;
-        let mut spaceCount = 0;
+        let mut is_token = false;
         let mut token = Vec::new();
 
         for ch in line.chars() {
+            let tab = Syntax::Tab.to_char();
+            let space = Syntax::Space.to_char();
+            let semi_colon = Syntax::SemiColon.to_char();
+            let colon = Syntax::Colon.to_char();
+            let peroid = Syntax::Peroid.to_char();
+            let comma = Syntax::Comma.to_char();
+            let equals = Syntax::Equals.to_char();
+            let left_brace = Syntax::LeftBrace.to_char();
+            let right_brace = Syntax::RightBrace.to_char();
+            let left_bracket = Syntax::RightBracket.to_char();
+            let right_bracket = Syntax::RightBracket.to_char();
             match ch {
-                TAB => {
-                    assign_token(isToken, tokens, token, TokenType::Tab);
+                tab => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    let symbol = Syntax::Tab;
+                    tokens.push(TokenType::Syntax(symbol));
                 },
-                SPACE => {
-                    assign_token_two(isToken, tokens, token, TokenType::Space);
+                space => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::Space));
+                },
+                semi_colon => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::SemiColon));
+                },
+                colon => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::Colon));
+                },
+                peroid => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::Peroid));
+                },
+                comma => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::Comma));
+                },
+                equals => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::Equals));
+                },
+                left_brace => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::LeftBrace));
+                },
+                right_brace => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::RightBrace));
+                },
+                left_bracket => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::LeftBracket));
+                },
+                right_bracket => {
+                    if is_token {
+                        tokens.push(
+                            tokenize_string(&token
+                                .into_iter()
+                                .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    tokens.push(TokenType::Syntax(Syntax::RightBracket));
                 },
                 _ => {
+                    is_token = true;
                     token.push(ch);
                 },
             }
