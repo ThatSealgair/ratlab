@@ -335,6 +335,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 },
             }
         }
+        tokens.append(TokenType::NewLine);
+
     }
 
     return tokens

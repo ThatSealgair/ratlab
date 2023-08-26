@@ -29,6 +29,7 @@ pub enum TokenType {
     ArithmeticOperator(ArithmeticOperator),
     Conditional(Conditional),
     Identifier(String),
+    NewLine,
 }
 
 
