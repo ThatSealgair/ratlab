@@ -191,10 +191,11 @@ fn tokenize_string(input: String) -> TokenType {
 }
 
 
-fn tokenize(data: Vec<String>) -> Vec<TokenType> {
+fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
     use crate::header::syntax::*;
 
-    let mut tokens: Vec<TokenType> = Vec::new();
+    let mut array: Vec<TokenType> = Vec::new();
+    let mut tokens: Vec<Vec<TokenType>> = Vec::new();
 
     for line in data.iter() {
         let mut is_token = false;
@@ -204,7 +205,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
             match ch {
                 TAB => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -214,11 +215,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         is_token = false;
                     }
                     let symbol = Syntax::Tab;
-                    tokens.push(TokenType::Syntax(symbol));
+                    array.push(TokenType::Syntax(symbol));
                 },
                 SPACE => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -227,11 +228,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::Space));
+                    array.push(TokenType::Syntax(Syntax::Space));
                 },
                 SEMI_COLON => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -240,11 +241,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::SemiColon));
+                    array.push(TokenType::Syntax(Syntax::SemiColon));
                 },
                 COLON => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -253,11 +254,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::Colon));
+                    array.push(TokenType::Syntax(Syntax::Colon));
                 },
                 PEROID => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -266,11 +267,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::Peroid));
+                    array.push(TokenType::Syntax(Syntax::Peroid));
                 },
                 COMMA => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -279,11 +280,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::Comma));
+                    array.push(TokenType::Syntax(Syntax::Comma));
                 },
                 EQUALS => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -292,11 +293,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::Equals));
+                    array.push(TokenType::Syntax(Syntax::Equals));
                 },
                 LEFT_BRACE => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -305,24 +306,24 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::LeftBrace));
+                    array.push(TokenType::Syntax(Syntax::LeftBrace));
                 },
                 RIGHT_BRACE => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
-                        token.clear();
+                        array.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::RightBrace));
+                    array.push(TokenType::Syntax(Syntax::RightBrace));
                 },
                 LEFT_BRACKET => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -331,11 +332,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::LeftBracket));
+                    array.push(TokenType::Syntax(Syntax::LeftBracket));
                 },
                 RIGHT_BRACKET => {
                     if is_token {
-                        tokens.push(
+                        array.push(
                             tokenize_string(token
                                 .clone()
                                 .into_iter()
@@ -344,7 +345,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                         token.clear();
                         is_token = false;
                     }
-                    tokens.push(TokenType::Syntax(Syntax::RightBracket));
+                    array.push(TokenType::Syntax(Syntax::RightBracket));
                 },
                 _ => {
                     is_token = true;
@@ -352,8 +353,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 },
             }
         }
-        tokens.push(TokenType::NewLine);
-
+        tokens.push(array.clone());
+        array.clear();
     }
 
     return tokens

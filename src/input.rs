@@ -42,14 +42,25 @@ fn open_file(file_path: &str) -> File {
     file
 }
 
+fn line_is_comment(s: &String) -> bool {
+    if let Some(first_line) = s.lines().next() {
+        first_line.trim().starts_with('%')
+    } else {
+        false
+    }
+}
+
 fn file_to_lines(file: File) -> Vec<String> {
     let reader = BufReader::new(file);
     let mut lines_vec: Vec<String> = vec![];
 
     for line in reader.lines() {
-        match line {
-            Ok(line_val) => lines_vec.push(line_val),
-            Err(_) => panic!("File contains invalid line!\n"),
+        if let Ok(line) = line {
+            if !line_is_comment(&line) {
+                lines_vec.push(line);
+            }
+        } else {
+            panic!("File contains corrupted data!\n")
         }
     }
 

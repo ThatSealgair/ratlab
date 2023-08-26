@@ -9,111 +9,113 @@ pub mod stdlib;
 
 // Standard header contents to set defaults for the language.
 pub mod header {
-pub enum TokenType {
-    // Primitive Types
-    PrimitiveType(PrimitiveType),
-    // Syntax
-    Syntax(Syntax),
-    Statements(Statements),
-    ArithmeticOperator(ArithmeticOperator),
-    Conditional(Conditional),
-    Identifier(String),
-    NewLine,
-}
-
-
-impl TokenType {
-    pub fn to_string(&self) -> &str {
-        return "he he poo poo"
+    #[derive(Clone)]
+    pub enum TokenType {
+        PrimitiveType(PrimitiveType),
+        Syntax(Syntax),
+        Statements(Statements),
+        ArithmeticOperator(ArithmeticOperator),
+        Conditional(Conditional),
+        Identifier(String),
+        NewLine,
     }
-}
 
-pub enum PrimitiveType {
-    BOOL,
-    CHAR,
-    SINGLE,
-    DOUBLE,
-    INT8,
-    UINT8,
-    INT16,
-    UINT16,
-    INT32,
-    UINT32,
-    INT64,
-    UINT64,
-}
 
-pub enum Conditional {
-    And,
-    Not,
-    Or,
-    Xor,
-    True,
-    False,
-    Less,
-    Greater,
-    Equals,
-    LessEq,
-    GreaterEq,
-    NotEq,
-}
-
-impl Conditional {
-    pub fn to_string(&self) -> &str {
-        match self {
-            Conditional::And => "&",
-            Conditional::Not => "~",
-            Conditional::Or => "|",
-            Conditional::Xor => "xor",
-            Conditional::True => "true",
-            Conditional::False => "false",
-            Conditional::Less => "<",
-            Conditional::Greater => ">",
-            Conditional::Equals => "==",
-            Conditional::LessEq => "<=",
-            Conditional::GreaterEq => ">=",
-            Conditional::NotEq => "<=",
+    impl TokenType {
+        pub fn to_string(&self) -> &str {
+            return "he he poo poo"
         }
     }
-}
 
-pub enum ArithmeticOperator {
-    Plus,
-    Minus,
-    Times,
-    Power,
-}
+    #[derive(Copy, Clone)]
+    pub enum PrimitiveType {
+        BOOL,
+        CHAR,
+        SINGLE,
+        DOUBLE,
+        INT8,
+        UINT8,
+        INT16,
+        UINT16,
+        INT32,
+        UINT32,
+        INT64,
+        UINT64,
+    }
 
-impl ArithmeticOperator {
-    pub fn to_string(&self) -> &str {
-        match self {
-            ArithmeticOperator::Plus => "+",
-            ArithmeticOperator::Minus => "-",
-            ArithmeticOperator::Times => "/",
-            ArithmeticOperator::Power => "^",
+    #[derive(Copy, Clone)]
+    pub enum Conditional {
+        And,
+        Not,
+        Or,
+        Xor,
+        True,
+        False,
+        Less,
+        Greater,
+        Equals,
+        LessEq,
+        GreaterEq,
+        NotEq,
+    }
+
+    impl Conditional {
+        pub fn to_string(&self) -> &str {
+            match self {
+                Conditional::And => "&",
+                Conditional::Not => "~",
+                Conditional::Or => "|",
+                Conditional::Xor => "xor",
+                Conditional::True => "true",
+                Conditional::False => "false",
+                Conditional::Less => "<",
+                Conditional::Greater => ">",
+                Conditional::Equals => "==",
+                Conditional::LessEq => "<=",
+                Conditional::GreaterEq => ">=",
+                Conditional::NotEq => "<=",
+            }
         }
     }
-}
 
+    #[derive(Copy, Clone)]
+    pub enum ArithmeticOperator {
+        Plus,
+        Minus,
+        Times,
+        Power,
+    }
 
-pub enum Statements {
-    While,
-    For,
-    If,
-    Else,
-    ElseIf,
-    Switch,
-    Case,
-    Default,
-    Function,
-    Close,
-}
+    impl ArithmeticOperator {
+        pub fn to_string(&self) -> &str {
+            match self {
+                ArithmeticOperator::Plus => "+",
+                ArithmeticOperator::Minus => "-",
+                ArithmeticOperator::Times => "/",
+                ArithmeticOperator::Power => "^",
+            }
+        }
+    }
 
-impl Statements {
-    pub fn to_string(&self) -> &str {
-        match self {
-            Statements::While => "while",
-            Statements::For => "for",
+    #[derive(Copy, Clone)]
+    pub enum Statements {
+        While,
+        For,
+        If,
+        Else,
+        ElseIf,
+        Switch,
+        Case,
+        Default,
+        Function,
+        Close,
+    }
+
+    impl Statements {
+        pub fn to_string(&self) -> &str {
+            match self {
+                Statements::While => "while",
+                Statements::For => "for",
                 Statements::If => "if",
                 Statements::Else => "else",
                 Statements::ElseIf => "elseif",
@@ -126,6 +128,7 @@ impl Statements {
         }
     }
 
+    #[derive(Copy, Clone)]
     pub enum Syntax {
         Tab,
         Space,
