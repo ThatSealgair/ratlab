@@ -9,6 +9,7 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use std::fs::File;
 use std::path::Path;
+use crate::header::glitter;
 
 /* Main function to handle the input process.
  */
@@ -44,7 +45,7 @@ fn open_file(file_path: &str) -> File {
 
 fn line_is_comment(s: &String) -> bool {
     if let Some(first_line) = s.lines().next() {
-        first_line.trim().starts_with('%')
+        first_line.trim().starts_with(glitter::COMMENT)
     } else {
         false
     }
@@ -54,10 +55,16 @@ fn file_to_lines(file: File) -> Vec<String> {
     let reader = BufReader::new(file);
     let mut lines_vec: Vec<String> = vec![];
 
+    let mut multiline: bool = false;
+
     for line in reader.lines() {
         if let Ok(line) = line {
-            if !line_is_comment(&line) {
+            if !line_is_comment(&line) && !multiline {
                 lines_vec.push(line);
+            } else if line.as_str().trim().starts_with(glitter::START_COMMENT) {
+                multiline = true;
+            } else if line.as_str().trim().starts_with(glitter::END_COMMENT) {
+                multiline = false;
             }
         } else {
             panic!("File contains corrupted data!\n")

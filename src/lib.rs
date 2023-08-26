@@ -62,18 +62,18 @@ pub mod header {
     impl Conditional {
         pub fn to_string(&self) -> &str {
             match self {
-                Conditional::And => "&",
-                Conditional::Not => "~",
-                Conditional::Or => "|",
-                Conditional::Xor => "xor",
-                Conditional::True => "true",
-                Conditional::False => "false",
-                Conditional::Less => "<",
-                Conditional::Greater => ">",
-                Conditional::Equals => "==",
-                Conditional::LessEq => "<=",
-                Conditional::GreaterEq => ">=",
-                Conditional::NotEq => "<=",
+                Conditional::And => conditional::AND,
+                Conditional::Not => conditional::NOT,
+                Conditional::Or => conditional::OR,
+                Conditional::Xor => conditional::XOR,
+                Conditional::True => conditional::TRUE,
+                Conditional::False => conditional::FALSE,
+                Conditional::Less => conditional::LESS,
+                Conditional::Greater => conditional::GREATER,
+                Conditional::Equals => conditional::EQUALS,
+                Conditional::LessEq => conditional::LESS_EQ,
+                Conditional::GreaterEq => conditional::GREATER_EQ,
+                Conditional::NotEq => conditional::NOT_EQ,
             }
         }
     }
@@ -89,10 +89,10 @@ pub mod header {
     impl ArithmeticOperator {
         pub fn to_string(&self) -> &str {
             match self {
-                ArithmeticOperator::Plus => "+",
-                ArithmeticOperator::Minus => "-",
-                ArithmeticOperator::Times => "/",
-                ArithmeticOperator::Power => "^",
+                ArithmeticOperator::Plus => arithmetic_operator::PLUS,
+                ArithmeticOperator::Minus => arithmetic_operator::MINUS,
+                ArithmeticOperator::Times => arithmetic_operator::TIMES,
+                ArithmeticOperator::Power => arithmetic_operator::POWER,
             }
         }
     }
@@ -114,16 +114,16 @@ pub mod header {
     impl Statements {
         pub fn to_string(&self) -> &str {
             match self {
-                Statements::While => "while",
-                Statements::For => "for",
-                Statements::If => "if",
-                Statements::Else => "else",
-                Statements::ElseIf => "elseif",
-                Statements::Switch => "switch",
-                Statements::Case => "case",
-                Statements::Default => "otherwise",
-                Statements::Function => "function",
-                Statements::Close => "end",
+                Statements::While => statements::WHILE,
+                Statements::For => statements::FOR,
+                Statements::If => statements::IF,
+                Statements::Else => statements::ELSE,
+                Statements::ElseIf => statements::ELIF,
+                Statements::Switch => statements::SWITCH,
+                Statements::Case => statements::CASE,
+                Statements::Default => statements::DEFAULT,
+                Statements::Function => statements::FN,
+                Statements::Close => statements::CLOSE,
             }
         }
     }
@@ -134,7 +134,7 @@ pub mod header {
         Space,
         SemiColon,
         Colon,
-        Peroid,
+        Period,
         Comma,
         Equals,
         LeftBrace,
@@ -146,17 +146,17 @@ pub mod header {
     impl Syntax {
         pub fn to_char(&self) -> char {
             match self {
-                Syntax::Tab => '\t',
-                Syntax::Space => ' ',
-                Syntax::SemiColon => ';',
-                Syntax::Colon => ':',
-                Syntax::Peroid => '.',
-                Syntax::Comma => ',',
-                Syntax::Equals => '=',
-                Syntax::LeftBrace => '(',
-                Syntax::RightBrace => ')',
-                Syntax::LeftBracket => '{',
-                Syntax::RightBracket => '}',
+                Syntax::Tab => syntax::TAB,
+                Syntax::Space => syntax::SPACE,
+                Syntax::SemiColon => syntax::SEMI_COLON,
+                Syntax::Colon => syntax::COLON,
+                Syntax::Period => syntax::PERIOD,
+                Syntax::Comma => syntax::COMMA,
+                Syntax::Equals => syntax::EQUALS,
+                Syntax::LeftBrace => syntax::LEFT_BRACE,
+                Syntax::RightBrace => syntax::RIGHT_BRACE,
+                Syntax::LeftBracket => syntax::LEFT_BRACKET,
+                Syntax::RightBracket => syntax::RIGHT_BRACKET,
             }
         }
     }
@@ -166,19 +166,21 @@ pub mod header {
         pub const SPACE: char = ' ';
         pub const SEMI_COLON: char = ';';
         pub const COLON: char = ':';
-        pub const PEROID: char = '.';
+        pub const PERIOD: char = '.';
         pub const COMMA: char = ',';
         pub const EQUALS: char = '=';
-        pub const LEFT_BRACE: char = '(';
-        pub const RIGHT_BRACE: char = ')';
-        pub const LEFT_BRACKET: char = '{';
-        pub const RIGHT_BRACKET: char = '}';
+        pub const LEFT_BRACE: char = '{';
+        pub const RIGHT_BRACE: char = '}';
+        pub const LEFT_BRACKET: char = '(';
+        pub const RIGHT_BRACKET: char = ')';
     }
 
     pub mod glitter {
         pub const INDENT: &str = "\t  ";
         pub const INDEX_OFFSET: i8 = 2;
         pub const COMMENT: &str = "%";
+        pub const START_COMMENT: &str = "%{";
+        pub const END_COMMENT: &str = "%}";
     }
 
     pub mod primatives {
