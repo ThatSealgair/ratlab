@@ -42,6 +42,9 @@ fn tokenize_type(data: &str) -> Result<TokenType, bool> {
         DOUBLE => {
             Ok(TokenType::PrimitiveType(PrimitiveType::DOUBLE))
         },
+        STRING => {
+            Ok(TokenType::PrimitiveType(PrimitiveType::STRING))
+        },
         _ => {
             Err(false)
         },
@@ -191,7 +194,7 @@ fn tokenize_string(input: String) -> TokenType {
 }
 
 
-fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
+pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
     use crate::header::syntax::*;
 
     let mut array: Vec<TokenType> = Vec::new();
@@ -267,7 +270,7 @@ fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
                         token.clear();
                         is_token = false;
                     }
-                    array.push(TokenType::Syntax(Syntax::Peroid));
+                    array.push(TokenType::Syntax(Syntax::Period));
                 },
                 COMMA => {
                     if is_token {
