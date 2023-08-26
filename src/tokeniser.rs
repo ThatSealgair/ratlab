@@ -19,9 +19,78 @@ fn tokenize_type(data: &str) -> TokenType {
     }
 }
 
+fn statement_token(data: &str) -> Result<TokenType, bool> {
+    let while_str = Statements::While.to_string();
+    let for_str = Statements::For.to_string();
+    let if_str = Statements::If.to_string();
+    let else_str = Statements::Else.to_string();
+    let elseif = Statements::ElseIf.to_string();
+    let switch = Statements::Switch.to_string();
+    let case = Statements::Case.to_string();
+    let default_str = Statements::Default.to_string();
+    let function = Statements::Function.to_string();
+    let close = Statements::Close.to_string();
+
+    match data {
+        while_str => {
+            Ok(TokenType::Statements(Statements::While))
+        },
+        for_str => {
+            Ok(TokenType::Statements(Statements::For))
+        },
+        if_str => {
+            Ok(TokenType::Statements(Statements::If))
+        }
+        else_str => {
+            Ok(TokenType::Statements(Statements::Else))
+        }
+        elseif => {
+            Ok(TokenType::Statements(Statements::ElseIf))
+        }
+        switch => {
+            Ok(TokenType::Statements(Statements::Switch))
+        }
+        case => {
+            Ok(TokenType::Statements(Statements::Case))
+        }
+        default_str => {
+            Ok(TokenType::Statements(Statements::Default))
+        }
+        function => {
+            Ok(TokenType::Statements(Statements::Function))
+        }
+        close => {
+            Ok(TokenType::Statements(Statements::Close))
+        }
+        _ => {
+            Err(false)
+        }
+    }
+}
 
 fn tokenize_string(data: &str) -> TokenType {
-    return TokenType::Identifier(data.to_string())
+    let statement = statement_token(data);
+
+    if let Ok(token_statement) = statement {
+        return token_statement
+    }
+    else {
+        let arithmetic = arithmetic_token(data);
+
+        if let Ok(token_arithmetic) = arithmetic {
+            return token_arithmetic
+        }
+        else {
+            let conditional = conditional_token(data);
+
+            if let Ok(token_conditional) = conditional {
+                return token_conditional
+            }
+            else {
+                return TokenType::Identifier(data.to_string())
+            }
+        }
+    }
 }
 
 
