@@ -169,6 +169,8 @@ pub mod header {
         RightBrace,
         LeftBracket,
         RightBracket,
+        Quote,
+        DoubleQuote,
     }
 
     impl Syntax {

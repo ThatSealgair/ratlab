@@ -349,6 +349,32 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
                     }
                     array.push(TokenType::Syntax(Syntax::RightBracket));
                 },
+                QUOTE => {
+                    if is_token {
+                        array.push(
+                            tokenize_string(token
+                            .clone()
+                            .into_iter()
+                            .collect::<String>())
+                        );
+                        token.clear();
+                        is_token = false;
+                    }
+                    array.push(TokenType::Syntax(Syntax::Quote));
+                },
+                DOUBLE_QUOTE => {
+                    if is_token {
+                        array.push(
+                            tokenize_string(token
+                            .clone()
+                            .into_iter()
+                            .collect::<String>())
+                        );
+                        token.clear() = false;
+                        is_token = false;
+                    }
+                    array.push(TokenType::Syntax(Syntax::DoubleQuote));
+                }
                 _ => {
                     is_token = true;
                     token.push(ch.clone());

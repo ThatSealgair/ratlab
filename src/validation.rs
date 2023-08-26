@@ -16,22 +16,23 @@ fn has_token(line: &Vec<TokenType>, index: usize, token_type: TokenType) -> bool
 }
 
 fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
-    let line_length: usize = line.len();
+    let line_length: usize = line.len() - 1;
+    let mut combined_tokens: Vec<TokenType> = Vec::new();
 
-    if !has_token(&line, line_length - 1, TokenType::Syntax(Syntax::SemiColon)) {
+    if !has_token(&line, line_length, TokenType::Syntax(Syntax::SemiColon)) {
         println!("No semicolon");
     }
 
     let mut position = 0;
-    let mut sub_pos_a = 0;
-    let mut sub_pos_b = 0;
+    let mut quote_pos = 0;
+    let mut d_quote_pos = 0;
     let mut string_type = false;
     let mut char_type = false;
     let mut gets_assigned = false;
 
     string_type = has_token(&line, position, TokenType::PrimitiveType(PrimitiveType::STRING));
     char_type = has_token(&line, position, TokenType::PrimitiveType(PrimitiveType::CHAR));
-
+    combined_tokens.push(line.index(position).clone());
     position += 1;
 
     while position < line_length {
@@ -39,17 +40,46 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
             TokenType::Syntax(_) => {
                 match *line.index(position) {
                     TokenType::Syntax(Syntax::Space) => {
-                        println!("Space good!");
+                        combined_tokens.push(line.index(position).clone());
                     },
                     TokenType::Syntax(Syntax::Equals) => {
                         println!("Variable assigned!");
                         gets_assigned = true;
+                        combined_tokens.push(line.index(position).clone());
                     },
                     TokenType::Syntax(Syntax::SemiColon) => {
-                        if (position != line_length) {
                             println!("Too many semi colons!");
+                    },
+                    TokenType::Syntax(Syntax::Quote) => {
+                        if !char_type {
+                            panic!("Invalid syntax!");
+                        }
+                        else {
+                            if (quote_pos != 0) {
+                                panic!("Invalid syntax!");
+                            }
+                            else {
+                                quote_pos = token_position_in_vector(&line, position, TokenType::Syntax(Syntax::Quote));
+                            }
+                            combined_tokens.append(get_token_slice(&line, position, quote_pos));
+                            position = position + quote_pos;
                         }
                     },
+                    TokenType::Syntax(Syntax::DoubleQuote) => {
+                        if !char_type {
+                            panic!("Invalid syntax!");
+                        }
+                        else {
+                            if (quote_pos != 0) {
+                                panic!("Invalid syntax!");
+                            }
+                            else {
+                                d_quote_pos = token_position_in_vector(&line, position, TokenType::Syntax(Syntax::DoubleQuote));
+                            }
+                            combined_tokens.append(get_token_slice(&line, position, quote_pos));
+                            position = position + quote_pos;
+                        }
+                    }
                     _ => {
                         println!("Invalid syntax token!");
                     },
@@ -84,7 +114,6 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) {
     for line in tokens.iter() {
         if let Some(token) = line.first() {
             match token {
-            //match &token {
                 TokenType::NewLine => {
                     println!("New line!");
                 },
@@ -100,6 +129,7 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) {
                 },
                 TokenType::PrimitiveType(_) => {
                     current_line = primitive_start(line.clone());
+                    
                 },
                 TokenType::Identifier(_) => {
                     println!("Identifier!");
