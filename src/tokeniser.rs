@@ -3,6 +3,8 @@
 use crate::header::*;
 
 fn tokenize_type(data: &str) -> Result<TokenType, bool> {
+    use crate::header::primatives::*;
+
     match data {
         CHAR => {
             Ok(TokenType::PrimitiveType(PrimitiveType::CHAR))
@@ -47,46 +49,37 @@ fn tokenize_type(data: &str) -> Result<TokenType, bool> {
 }
 
 fn statement_token(data: &str) -> Result<TokenType, bool> {
-    let while_str = Statements::While.to_string();
-    let for_str = Statements::For.to_string();
-    let if_str = Statements::If.to_string();
-    let else_str = Statements::Else.to_string();
-    let elseif = Statements::ElseIf.to_string();
-    let switch = Statements::Switch.to_string();
-    let case = Statements::Case.to_string();
-    let default_str = Statements::Default.to_string();
-    let function = Statements::Function.to_string();
-    let close = Statements::Close.to_string();
+    use crate::header::statements::*;
 
     match data {
-        while_str => {
+        WHILE => {
             Ok(TokenType::Statements(Statements::While))
         },
-        for_str => {
+        FOR => {
             Ok(TokenType::Statements(Statements::For))
         },
-        if_str => {
+        IF => {
             Ok(TokenType::Statements(Statements::If))
         }
-        else_str => {
+        ELSE => {
             Ok(TokenType::Statements(Statements::Else))
         }
-        elseif => {
+        ELIF => {
             Ok(TokenType::Statements(Statements::ElseIf))
         }
-        switch => {
+        SWITCH => {
             Ok(TokenType::Statements(Statements::Switch))
         }
-        case => {
+        CASE => {
             Ok(TokenType::Statements(Statements::Case))
         }
-        default_str => {
+        DEFAULT => {
             Ok(TokenType::Statements(Statements::Default))
         }
-        function => {
+        FN => {
             Ok(TokenType::Statements(Statements::Function))
         }
-        close => {
+        CLOSE => {
             Ok(TokenType::Statements(Statements::Close))
         }
         _ => {
@@ -96,22 +89,19 @@ fn statement_token(data: &str) -> Result<TokenType, bool> {
 }
 
 fn arithmetic_token(data: &str) -> Result<TokenType, bool> {
-    let plus = ArithmeticOperator::Plus.to_string();
-    let minus = ArithmeticOperator::Minus.to_string();
-    let times = ArithmeticOperator::Times.to_string();
-    let power = ArithmeticOperator::Power.to_string();
+    use crate::header::arithmetic_operator::*;
 
     match data {
-        plus => {
+        PLUS => {
             Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Plus))
         }
-        minus => {
+        MINUS => {
             Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Minus))
         }
-        times => {
+        TIMES => {
             Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Times))
         }
-        power => {
+        POWER => {
             Ok(TokenType::ArithmeticOperator(ArithmeticOperator::Power))
         }
         _ => {
@@ -121,54 +111,43 @@ fn arithmetic_token(data: &str) -> Result<TokenType, bool> {
 }
 
 fn conditional_token(data: &str) -> Result<TokenType, bool> {
-    let and = Conditional::And.to_string();
-    let not = Conditional::Not.to_string();
-    let or = Conditional::Not.to_string();
-    let xor = Conditional::Xor.to_string();
-    let true_str = Conditional::True.to_string();
-    let false_str = Conditional::False.to_string();
-    let less = Conditional::Less.to_string();
-    let greater = Conditional::Greater.to_string();
-    let equals = Conditional::Equals.to_string();
-    let less_eq = Conditional::LessEq.to_string();
-    let great_eq = Conditional::GreaterEq.to_string();
-    let not_eq = Conditional::NotEq.to_string();
+    use crate::header::conditional::*;
 
     match data {
-        and => {
+        AND => {
             Ok(TokenType::Conditional(Conditional::And))
         },
-        not => {
+        NOT => {
             Ok(TokenType::Conditional(Conditional::Not))
         },
-        or => {
+        OR => {
             Ok(TokenType::Conditional(Conditional::Or))
         },
-        xor => {
+        XOR => {
             Ok(TokenType::Conditional(Conditional::Xor))
         },
-        true_str => {
+        TRUE => {
             Ok(TokenType::Conditional(Conditional::True))
         },
-        false_str => {
+        FALSE => {
             Ok(TokenType::Conditional(Conditional::False))
         },
-        less => {
+        LESS => {
             Ok(TokenType::Conditional(Conditional::Less))
         },
-        greater => {
+        GREATER => {
             Ok(TokenType::Conditional(Conditional::Greater))
         },
-        equals => {
+        EQUALS => {
             Ok(TokenType::Conditional(Conditional::Equals))
         },
-        less_eq => {
+        LESS_EQ => {
             Ok(TokenType::Conditional(Conditional::LessEq))
         },
-        great_eq => {
+        GREATER_EQ => {
             Ok(TokenType::Conditional(Conditional::GreaterEq))
         },
-        not_eq => {
+        NOT_EQ => {
             Ok(TokenType::Conditional(Conditional::NotEq))
         },
         _ => {
@@ -178,7 +157,7 @@ fn conditional_token(data: &str) -> Result<TokenType, bool> {
 }
 
 fn tokenize_string(input: String) -> TokenType {
-    let mut data: &str = &input;
+    let data: &str = &input;
     let statement = statement_token(data);
 
     if let Ok(token_statement) = statement {
@@ -213,6 +192,8 @@ fn tokenize_string(input: String) -> TokenType {
 
 
 fn tokenize(data: Vec<String>) -> Vec<TokenType> {
+    use crate::header::syntax::*;
+
     let mut tokens: Vec<TokenType> = Vec::new();
 
     for line in data.iter() {
@@ -220,20 +201,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
         let mut token = Vec::new();
 
         for ch in line.chars() {
-            let tab: char = Syntax::Tab.to_char();
-            let space = Syntax::Space.to_char();
-            let semi_colon = Syntax::SemiColon.to_char();
-            let colon = Syntax::Colon.to_char();
-            let peroid = Syntax::Peroid.to_char();
-            let comma = Syntax::Comma.to_char();
-            let equals = Syntax::Equals.to_char();
-            let left_brace = Syntax::LeftBrace.to_char();
-            let right_brace = Syntax::RightBrace.to_char();
-            let left_bracket = Syntax::RightBracket.to_char();
-            let right_bracket = Syntax::RightBracket.to_char();
-            
             match ch {
-                tab => {
+                TAB => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -247,7 +216,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     let symbol = Syntax::Tab;
                     tokens.push(TokenType::Syntax(symbol));
                 },
-                space => {
+                SPACE => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -260,7 +229,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::Space));
                 },
-                semi_colon => {
+                SEMI_COLON => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -273,7 +242,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::SemiColon));
                 },
-                colon => {
+                COLON => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -286,7 +255,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::Colon));
                 },
-                peroid => {
+                PEROID => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -299,7 +268,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::Peroid));
                 },
-                comma => {
+                COMMA => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -312,7 +281,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::Comma));
                 },
-                equals => {
+                EQUALS => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -325,7 +294,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::Equals));
                 },
-                left_brace => {
+                LEFT_BRACE => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -338,7 +307,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::LeftBrace));
                 },
-                right_brace => {
+                RIGHT_BRACE => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -351,7 +320,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::RightBrace));
                 },
-                left_bracket => {
+                LEFT_BRACKET => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
@@ -364,7 +333,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                     }
                     tokens.push(TokenType::Syntax(Syntax::LeftBracket));
                 },
-                right_bracket => {
+                RIGHT_BRACKET => {
                     if is_token {
                         tokens.push(
                             tokenize_string(token
