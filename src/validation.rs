@@ -43,12 +43,11 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                         combined_tokens.push(line.index(position).clone());
                     },
                     TokenType::Syntax(Syntax::Equals) => {
-                        println!("Variable assigned!");
                         gets_assigned = true;
                         combined_tokens.push(line.index(position).clone());
                     },
                     TokenType::Syntax(Syntax::SemiColon) => {
-                            println!("Too many semi colons!");
+                        panic!("Semi Colon Invalid syntax!");
                     },
                     TokenType::Syntax(Syntax::Quote) => {
                         if !char_type {
@@ -66,11 +65,11 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                         }
                     },
                     TokenType::Syntax(Syntax::DoubleQuote) => {
-                        if !char_type {
+                        if !string_type {
                             panic!("Invalid syntax!");
                         }
                         else {
-                            if (quote_pos != 0) {
+                            if (d_quote_pos != 0) {
                                 panic!("Invalid syntax!");
                             }
                             else {
@@ -81,25 +80,26 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                         }
                     }
                     _ => {
-                        println!("Invalid syntax token!");
+                        panic!("Invalid Syntax!");
                     },
                 }
             },
             TokenType::Identifier(_) => {
-                println!("Identifier good!");
+                combined_tokens.push(line.index(position).clone());
             },
             TokenType::NewLine => {
                 println!("Remove newlines");
             },
             _ => {
                 println!("Invalid token at index {}", position);
+                panic!("Invalid token!");
             },
         }
         position += 1;
     }
 
     if !gets_assigned {
-        println!("Doesn't get assign");
+        panic!("Invalid syntax!");
     }
 
     return line

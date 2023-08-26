@@ -370,7 +370,7 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
                             .into_iter()
                             .collect::<String>())
                         );
-                        token.clear() = false;
+                        token.clear();
                         is_token = false;
                     }
                     array.push(TokenType::Syntax(Syntax::DoubleQuote));

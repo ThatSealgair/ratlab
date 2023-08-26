@@ -187,6 +187,8 @@ pub mod header {
                 Syntax::RightBrace => syntax::RIGHT_BRACE,
                 Syntax::LeftBracket => syntax::LEFT_BRACKET,
                 Syntax::RightBracket => syntax::RIGHT_BRACKET,
+                Syntax::Quote => syntax::QUOTE,
+                Syntax::DoubleQuote => syntax::DOUBLE_QUOTE,
             }
         }
     }
@@ -200,7 +202,7 @@ pub mod header {
         pub const COMMA: char = ',';
         pub const EQUALS: char = '=';
         pub const QUOTE: char = '\'';
-        pub const DOUBLE_QUOTE = '"';
+        pub const DOUBLE_QUOTE: char = '"';
         pub const LEFT_BRACE: char = '{';
         pub const RIGHT_BRACE: char = '}';
         pub const LEFT_BRACKET: char = '(';
