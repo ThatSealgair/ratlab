@@ -177,7 +177,8 @@ fn conditional_token(data: &str) -> Result<TokenType, bool> {
     }
 }
 
-fn tokenize_string(data: &str) -> TokenType {
+fn tokenize_string(input: String) -> TokenType {
+    let mut data: &str = &input;
     let statement = statement_token(data);
 
     if let Ok(token_statement) = statement {
@@ -204,6 +205,7 @@ fn tokenize_string(data: &str) -> TokenType {
                 }
                 else {
                     return TokenType::Identifier(data.to_string())
+                }
             }
         }
     }
@@ -218,7 +220,7 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
         let mut token = Vec::new();
 
         for ch in line.chars() {
-            let tab = Syntax::Tab.to_char();
+            let tab: char = Syntax::Tab.to_char();
             let space = Syntax::Space.to_char();
             let semi_colon = Syntax::SemiColon.to_char();
             let colon = Syntax::Colon.to_char();
@@ -229,11 +231,13 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
             let right_brace = Syntax::RightBrace.to_char();
             let left_bracket = Syntax::RightBracket.to_char();
             let right_bracket = Syntax::RightBracket.to_char();
+            
             match ch {
                 tab => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -246,7 +250,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 space => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -258,7 +263,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 semi_colon => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -270,7 +276,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 colon => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -282,7 +289,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 peroid => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -294,7 +302,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 comma => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -306,7 +315,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 equals => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -318,7 +328,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 left_brace => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -330,7 +341,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 right_brace => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -342,7 +354,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 left_bracket => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -354,7 +367,8 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 right_bracket => {
                     if is_token {
                         tokens.push(
-                            tokenize_string(&token
+                            tokenize_string(token
+                                .clone()
                                 .into_iter()
                                 .collect::<String>())
                         );
@@ -365,11 +379,11 @@ fn tokenize(data: Vec<String>) -> Vec<TokenType> {
                 },
                 _ => {
                     is_token = true;
-                    token.push(ch);
+                    token.push(ch.clone());
                 },
             }
         }
-        tokens.append(TokenType::NewLine);
+        tokens.push(TokenType::NewLine);
 
     }
 
