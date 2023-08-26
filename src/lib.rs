@@ -9,7 +9,7 @@ pub mod stdlib;
 
 // Standard header contents to set defaults for the language.
 pub mod header {
-    #[derive(Clone)]
+    #[derive(Clone, PartialEq, Eq)]
     pub enum TokenType {
         PrimitiveType(PrimitiveType),
         Syntax(Syntax),
@@ -27,7 +27,7 @@ pub mod header {
         }
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Clone, PartialEq, Eq)]
     pub enum PrimitiveType {
         BOOL,
         CHAR,
@@ -44,7 +44,7 @@ pub mod header {
         STRING,
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Clone, PartialEq, Eq)]
     pub enum Conditional {
         And,
         Not,
@@ -96,7 +96,7 @@ pub mod header {
         }
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Clone, PartialEq, Eq)]
     pub enum ArithmeticOperator {
         Plus,
         Minus,
@@ -124,7 +124,7 @@ pub mod header {
         }
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Clone, PartialEq, Eq)]
     pub enum Statements {
         While,
         For,
@@ -155,7 +155,7 @@ pub mod header {
         }
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Clone, PartialEq, Eq)]
     pub enum Syntax {
         Tab,
         Space,
