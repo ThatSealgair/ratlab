@@ -5,6 +5,7 @@
 pub mod input;
 pub mod tokeniser;
 pub mod validation;
+pub mod conversion;
 pub mod stdlib;
 
 // Standard header contents to set defaults for the language.

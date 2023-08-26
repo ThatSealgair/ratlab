@@ -3,6 +3,7 @@ use std::env;
 use ratlib::input::*;
 use ratlib::tokeniser::*;
 use ratlib::validation::*;
+use ratlib::conversion::*;
 use ratlib::header::*;
 
 fn main() {
