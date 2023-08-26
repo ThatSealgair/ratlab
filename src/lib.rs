@@ -41,6 +41,7 @@ pub mod header {
         UINT32,
         INT64,
         UINT64,
+        STRING,
     }
 
     #[derive(Copy, Clone)]
@@ -76,6 +77,23 @@ pub mod header {
                 Conditional::NotEq => conditional::NOT_EQ,
             }
         }
+
+        pub fn to_rust(&self) -> &str {
+            match self {
+               Conditional::And => "&&",
+               Conditional::Not => "!",
+               Conditional::Or => "||",
+               Conditional::Xor => "^",
+               Conditional::True => "true",
+               Conditional::False => "false",
+               Conditional::Less => "<",
+               Conditional::Greater => ">",
+               Conditional::Equals => "==",
+               Conditional::LessEq => "<=",
+               Conditional::GreaterEq => ">=",
+               Conditional::NotEq => "!=",
+            }
+        }
     }
 
     #[derive(Copy, Clone)]
@@ -93,6 +111,15 @@ pub mod header {
                 ArithmeticOperator::Minus => arithmetic_operator::MINUS,
                 ArithmeticOperator::Times => arithmetic_operator::TIMES,
                 ArithmeticOperator::Power => arithmetic_operator::POWER,
+            }
+        }
+
+        pub fn to_rust(&self) -> &str {
+            match self {
+                ArithmeticOperator::Plus => "+",
+                ArithmeticOperator::Minus => "-",
+                ArithmeticOperator::Times => "*",
+                ArithmeticOperator::Power => ".pow()",
             }
         }
     }
