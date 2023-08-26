@@ -1,6 +1,6 @@
 # ratlab
 
-> A programming language developed by rATwORKS (Quinn Horton and Jay Hunter).
+> A programming language developed by Quinn Horton and Jay Hunter.
 
 ratlab is a programming platform designed loosely for hobbyist and masochist to analyse and design stuff and things that transform our world?
 
@@ -9,10 +9,6 @@ ratlab takes rough inspiration from a programming language that shall remain unn
 ## Licence
 
 To remain faithful to the inspiration for this language, it was decided to keep its usage free and very open source. For this reason, it operates on [The Unlicence](https://choosealicense.com/licenses/unlicense/).
-
-## Getting Started
-
-
 
 ## Types
 
@@ -38,6 +34,4 @@ rATwORKS are passionate about straightforward and intuitive user operation. To a
 | Type | Description |
 | ----- | ----- |
 | &ret_hc | String types (array of ch_ter). |
-
-
 
