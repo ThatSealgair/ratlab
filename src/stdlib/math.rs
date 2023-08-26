@@ -7,7 +7,7 @@ use std::f64::consts;
 // Private helper methods
 
 /* Converts a generic to an integer or throws an error. */
-fn int_from_generic<T: cast::ToPrimitive>(n: T) -> i64 {
+fn int_from_generic<T: cast::ToPrimitive>(n: &T) -> i64 {
     match n.to_i64() {
         None => panic!("Generic is not an integer."),
         Some(val) => val,
@@ -15,7 +15,7 @@ fn int_from_generic<T: cast::ToPrimitive>(n: T) -> i64 {
 }
 
 /* Converts a generic to a float or throws an error. */
-fn float_from_generic<T: cast::ToPrimitive>(x: T) -> f64 {
+fn float_from_generic<T: cast::ToPrimitive>(x: &T) -> f64 {
     match x.to_f64() {
         None => panic!("Factorial is not a floating point number."),
         Some(val) => val,
@@ -31,7 +31,7 @@ fn float_from_generic<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: A float representing the absolute value of n.
  */
 pub fn absolute<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     if x_float >= 0f64 {x_float} else {-x_float}
 }
 
@@ -47,7 +47,7 @@ pub fn average<T: cast::ToPrimitive>(values: Vec<T>) -> f64 {
     let mut sum: f64 = 0f64;
     let mut count: i32 = 0;
     for value in values {
-        let val_num: f64 = float_from_generic(value);
+        let val_num: f64 = float_from_generic(&value);
         sum += val_num;
         count += 1;
     }
@@ -63,7 +63,7 @@ pub fn average<T: cast::ToPrimitive>(values: Vec<T>) -> f64 {
  * Returns: The integer equal to x rounded up.
  */
 pub fn ceil<T: cast::ToPrimitive>(x: T) -> i64 {
-    let x_int: i64 = int_from_generic(x);
+    let x_int: i64 = int_from_generic(&x);
     let fix_x: i64 = fix(x);
     if x_int < 0 || x_int == fix_x {
         return fix_x;
@@ -81,7 +81,7 @@ pub fn ceil<T: cast::ToPrimitive>(x: T) -> i64 {
  * Returns: The value cos(x).
  */
 pub fn cosine<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     x_float.cos()
 }
 
@@ -96,10 +96,10 @@ pub fn cosine<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: The value of base ^ power.
  */
 pub fn exponential<P: cast::ToPrimitive + PrimInt, B: cast::ToPrimitive>(power: P, base: Option<B>) -> f64 {
-    let i_power: i64 = int_from_generic(power);
+    let i_power: i64 = int_from_generic(&power);
     let num_base: f64 = match base {
         None => consts::E,
-        Some(val) => float_from_generic(val),
+        Some(val) => float_from_generic(&val),
     };
     let mut result: f64 = 1f64;
     for i in 1..i_power {
@@ -117,7 +117,7 @@ pub fn exponential<P: cast::ToPrimitive + PrimInt, B: cast::ToPrimitive>(power: 
  * Returns: An unsigned integer equal to the factorial of n.
  */
 pub fn factorial<T: PrimInt + Unsigned + cast::ToPrimitive>(n: T) -> u64 {
-    let n_int: i64 = int_from_generic(n);
+    let n_int: i64 = int_from_generic(&n);
     if n_int < 0 {
         return 0;
     }
@@ -137,8 +137,8 @@ pub fn factorial<T: PrimInt + Unsigned + cast::ToPrimitive>(n: T) -> u64 {
  * Returns: The integer component of x.
  */
 pub fn fix<T: cast::ToPrimitive>(x: T) -> i64 {
-    let x_float: f64 = float_from_generic(x);
-    int_from_generic(x_float % 1f64)
+    let x_float: f64 = float_from_generic(&x);
+    int_from_generic(&(x_float % 1f64))
 }
 
 /* floor()
@@ -150,7 +150,7 @@ pub fn fix<T: cast::ToPrimitive>(x: T) -> i64 {
  * Returns: The resultant floor.
  */
 pub fn floor<T: cast::ToPrimitive>(x: T) -> i64 {
-    let x_int: i64 = int_from_generic(x);
+    let x_int: i64 = int_from_generic(&x);
     let fix_x: i64 = fix(x);
     if x_int > 0 || x_int == fix_x {
         return fix_x;
@@ -168,7 +168,7 @@ pub fn floor<T: cast::ToPrimitive>(x: T) -> i64 {
  * Returns: The natural logarithm of x, ln(x).
  */
 pub fn log_e<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     x_float.ln()
 }
 
@@ -181,7 +181,7 @@ pub fn log_e<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: The base two logarithm of x, log2(x).
  */
 pub fn log_2<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     x_float.log2()
 }
 
@@ -194,7 +194,7 @@ pub fn log_2<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: The base 10 logarithm of x, ln(x).
  */
 pub fn log_10<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     x_float.log10()
 }
 
@@ -208,8 +208,8 @@ pub fn log_10<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: The base n logarithm of x, log_n(x).
  */
 pub fn logarithm<T: cast::ToPrimitive>(x: T, n: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
-    let n_float: f64 = float_from_generic(n);
+    let x_float: f64 = float_from_generic(&x);
+    let n_float: f64 = float_from_generic(&n);
     x_float.log(n_float)
 }
 
@@ -223,8 +223,8 @@ pub fn logarithm<T: cast::ToPrimitive>(x: T, n: T) -> f64 {
  * Returns: The value of x (mod div).
  */
 pub fn modulus<T: cast::ToPrimitive>(x: T, div: T) -> f64 {
-    let x_float = float_from_generic(x);
-    let div_float = float_from_generic(div);
+    let x_float = float_from_generic(&x);
+    let div_float = float_from_generic(&div);
     let rem: f64 = x_float % div_float;
     if rem < 0f64 {
         return rem + div_float;
@@ -242,7 +242,7 @@ pub fn modulus<T: cast::ToPrimitive>(x: T, div: T) -> f64 {
  * Returns: The closest integer to x.
  */
 pub fn round<T: cast::ToPrimitive>(x: T) -> i64 {
-    let x_float = float_from_generic(x);
+    let x_float = float_from_generic(&x);
     if x_float - (x_float % 1f64) < 0.5 {
         return floor(x);
     } else {
@@ -259,7 +259,7 @@ pub fn round<T: cast::ToPrimitive>(x: T) -> i64 {
  * Returns: 1 if positive, -1 if negative, 0 if zero
  */
 pub fn sign<T: cast::ToPrimitive>(n: T) -> i8 {
-    let n_int: f64 = float_from_generic(n);
+    let n_int: f64 = float_from_generic(&n);
     if n_int == 0f64 {
         return 0;
     } else if n_int / absolute(n_int) > 0f64 {
@@ -278,7 +278,7 @@ pub fn sign<T: cast::ToPrimitive>(n: T) -> i8 {
  * Returns: The value sin(x).
  */
 pub fn sine<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     x_float.sin()
 }
 
@@ -291,7 +291,7 @@ pub fn sine<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: The square root of x.
  */
 pub fn numerical_root<T: cast::ToPrimitive>(x: T) -> f64 {
-    let float_x: f64 = float_from_generic(x);
+    let float_x: f64 = float_from_generic(&x);
     float_x.sqrt()
 }
 
@@ -304,7 +304,7 @@ pub fn numerical_root<T: cast::ToPrimitive>(x: T) -> f64 {
  * Returns: The value tan(x).
  */
 pub fn tangent<T: cast::ToPrimitive>(x: T) -> f64 {
-    let x_float: f64 = float_from_generic(x);
+    let x_float: f64 = float_from_generic(&x);
     if (x_float - consts::PI/2f64) % (2f64 * consts::PI) == 0f64 {
         return f64::INFINITY;
     } else if (x_float - consts::PI/2f64) % (consts::PI) == 0f64 {
