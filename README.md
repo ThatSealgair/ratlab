@@ -35,7 +35,7 @@ cd ./ratlab/
 cargo build
 
 # Move the compiler into the system binaries
-sudo cp target/debug/ratlab /usr/bin/ratlab
+sudo cp target/debug/ratlab /usr/local/bin/
 
 # Move out of the repo and remove
 cd ../
