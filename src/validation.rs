@@ -82,11 +82,11 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                     },
                     TokenType::Syntax(Syntax::Quote) => {
                         if !char_type {
-                            panic!("Invalid syntax!");
+                            panic!("Invalid syntax! Not type char!");
                         }
                         else {
                             if quote_pos != 0 {
-                                panic!("Invalid syntax!");
+                                panic!("Invalid syntax! Quotes, set!");
                             }
                             else {
                                 match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::Quote)) {
@@ -100,11 +100,11 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                     },
                     TokenType::Syntax(Syntax::DoubleQuote) => {
                         if !string_type {
-                            panic!("Invalid syntax!");
+                            panic!("Invalid syntax! Not string type!");
                         }
                         else {
                             if d_quote_pos != 0 {
-                                panic!("Invalid syntax!");
+                                panic!("Invalid syntax! Double quotes set!");
                             }
                             else {
                                 match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::DoubleQuote)) {
@@ -117,7 +117,7 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                         }
                     }
                     _ => {
-                        panic!("Invalid Syntax!");
+                        panic!("Invalid Syntax! Cannot set variable!");
                     },
                 }
             },
@@ -133,10 +133,10 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
     }
 
     if !gets_assigned {
-        panic!("Invalid syntax!");
+        panic!("Invalid syntax! Variable unset!");
     }
 
-    return combined_tokens
+    return combined_token
 }
 
 
@@ -145,10 +145,10 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
     let mut combined_tokens: Vec<TokenType> = Vec::new();
 
     if !has_token(&line, line_length, TokenType::Syntax(Syntax::SemiColon)) {
-        panic!("No semicolon");
+        panic!("No semicolon!");
     }
     
-    if line_length != 5 {
+    if line_length != 4 {
         panic!("Invalid function call length of {}", line_length);
     }
 
@@ -160,6 +160,7 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
     position += 1;
 
     while position < line_length {
+        println!("position {}", position);
         match *line.index(position) {
             TokenType::Syntax(_) => {
                 match *line.index(position) {
@@ -176,13 +177,13 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
                     TokenType::Syntax(Syntax::LeftBrace) => {
                         match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::RightBrace)) {
                             Ok(pos) => brace_pos = pos,
-                            Err(_) => panic!("Quote syntax error!"),
+                            Err(_) => panic!("Invalid braces!"),
                         }
                         combined_tokens.push(get_identifier_slice(&line, position, brace_pos).clone());
                         position = position + brace_pos;
                     },
                     _ => {
-                        panic!("Invalid Syntax!");
+                        panic!("Invalid Syntax for function call!");
                     },
                 }
             },
@@ -197,10 +198,6 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
         position += 1;
     }
 
-    if !gets_assigned {
-        panic!("Invalid syntax!");
-    }
-
     return combined_tokens
 }
 
@@ -208,7 +205,7 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
 
 /* Main function for token validation.
  */
-pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) {
+pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) -> Vec<Vec<TokenType>> {
     let mut current_line: Vec<TokenType> = Vec::new();
     let mut valid_lines: Vec<Vec<TokenType>> = Vec::new();
 
@@ -219,10 +216,12 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) {
                     println!("Syntax!");
                 },
                 TokenType::PrimitiveType(_) => {
+                    println!("Primitive!");
                     current_line = primitive_start(line.clone());
                     
                 },
                 TokenType::Identifier(_) => {
+                    println!("Identifier!");
                     current_line = identifier_start(line.clone());
                 },
                 TokenType::Statements(_) => {
