@@ -3,7 +3,7 @@
 use crate::header::*;
 
 fn tokenize_type(data: &str) -> Result<TokenType, bool> {
-    use crate::header::primatives::*;
+    use crate::header::primitives::*;
 
     match data {
         CHAR => {
