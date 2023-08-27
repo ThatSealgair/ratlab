@@ -93,7 +93,13 @@ fn clump_to_string(clump: TokenClump) -> String {
                 TokenType::PrimitiveType(prim) => prim.to_rust().to_string(),
                 TokenType::Conditional(cond) => cond.to_rust().to_string(),
                 TokenType::Syntax(syn) => syn.to_rust(),
-                TokenType::Identifier(ident) => ident,
+                TokenType::Identifier(ident) => {
+                    if ident == "disp".to_string() {
+                        "println!".to_string()
+                    } else {
+                        ident
+                    }
+                },
                 TokenType::Statements(stm) => stm.to_rust().to_string(),
                 TokenType::ArithmeticOperator(ar_op) => ar_op.to_rust().to_string(),
             }.as_str());
@@ -117,24 +123,4 @@ fn clump_to_string(clump: TokenClump) -> String {
             string
         }
     }
-}
-
-/* Turns primitive type token into string. Hopefully unneccesary.
- */
-fn prim_to_string(prim: PrimitiveType) -> String {
-    match prim {
-        PrimitiveType::BOOL => PrimitiveType::BOOL.to_rust(),
-        PrimitiveType::CHAR => PrimitiveType::CHAR.to_rust(),
-        PrimitiveType::STRING => PrimitiveType::STRING.to_rust(),
-        PrimitiveType::INT8 => PrimitiveType::INT8.to_rust(),
-        PrimitiveType::UINT8 => PrimitiveType::UINT8.to_rust(),
-        PrimitiveType::INT16 => PrimitiveType::INT16.to_rust(),
-        PrimitiveType::UINT16 => PrimitiveType::UINT16.to_rust(),
-        PrimitiveType::INT32 => PrimitiveType::INT32.to_rust(),
-        PrimitiveType::UINT32 => PrimitiveType::UINT32.to_rust(),
-        PrimitiveType::INT64 => PrimitiveType::INT64.to_rust(),
-        PrimitiveType::UINT64 => PrimitiveType::UINT64.to_rust(),
-        PrimitiveType::SINGLE => PrimitiveType::SINGLE.to_rust(),
-        PrimitiveType::DOUBLE => PrimitiveType::DOUBLE.to_rust(),
-    }.to_string()
 }

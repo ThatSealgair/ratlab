@@ -59,7 +59,7 @@ pub mod header {
                 PrimitiveType::UINT64 => "u64",
                 PrimitiveType::SINGLE => "f32",
                 PrimitiveType::DOUBLE => "f64",
-                PrimitiveType::STRING => "String",
+                PrimitiveType::STRING => "&str",
             }
         }
     }
