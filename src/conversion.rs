@@ -17,10 +17,24 @@ struct Typing {
 /* Takes in the validated tokens and outputs the converted lines.
  */
 pub fn ratlab_conversion(tokens: Vec<Vec<TokenType>>) -> Vec<String> {
-    let lines: Vec<String> = Vec::new();
+    let mut lines: Vec<String> = Vec::new();
     for line in tokens {
+        let mut line_string: String = String::new();
         let (clump, _) = token_clump(&line, 0usize);
-        
+        let is_dec: bool = match clump {
+            TokenClump::Clump(var) => {
+                match var.first() {
+                    Some(TokenClump::TypeClump(_)) => true,
+                    _ => false,
+                }
+            },
+            _ => false,
+        };
+        if is_dec {
+            line_string.push_str("let mut ");
+        }
+        line_string.push_str(clump_to_string(clump).as_str());
+        lines.push(line_string);
     }
     lines
 }
@@ -30,11 +44,22 @@ pub fn ratlab_conversion(tokens: Vec<Vec<TokenType>>) -> Vec<String> {
 fn token_clump(tokens: &Vec<TokenType>, index: usize) -> (TokenClump, usize) {
     let clumps: Vec<TokenClump> = Vec::new();
     let mut i: usize = index;
-    for token in tokens[index..].iter() {
+    let mut iterator = tokens[index..].iter();
+    for token in iterator {
         let (clump_vec, _) = match *token {
             TokenType::Syntax(Syntax::LeftBracket) => token_clump(tokens, i + 1usize),
             TokenType::Syntax(Syntax::RightBracket) => return (TokenClump::Clump(clumps), i + 1usize),
-            var => (TokenClump::Single(var), index),
+            TokenType::PrimitiveType(var) => {
+                let mut typing: Typing;
+                typing.prim = var;
+                iterator.next();
+                typing.name = match iterator.next() {
+                    Some(TokenType::Identifier(val)) => val.to_string(),
+                    _ => panic!("Not validated right."),
+                };
+                (TokenClump::TypeClump(typing), i)
+            },
+            var => (TokenClump::Single(var), i),
         };
         i += 1;
     }
@@ -51,12 +76,12 @@ fn clump_to_string(clump: TokenClump) -> String {
             let mut string = String::new();
             if needs_wrap {string.push(syntax::LEFT_BRACKET); needed_wrap = true; needs_wrap = false;};
             string.push_str(match var {
-                TokenType::PrimitiveType(prim) => prim_to_string(prim).as_str(),
-                TokenType::Conditional(cond) => "",
-                TokenType::Syntax(syn) => "",
-                TokenType::Identifier(ident) => "",
-                TokenType::Statements(stm) => "",
-                TokenType::ArithmeticOperator(ar_op) => "",
+                TokenType::PrimitiveType(prim) => prim.to_rust(),
+                TokenType::Conditional(cond) => cond.to_rust(),
+                TokenType::Syntax(syn) => syn.to_rust(),
+                TokenType::Identifier(ident) => ident.as_str(),
+                TokenType::Statements(stm) => stm.to_rust(),
+                TokenType::ArithmeticOperator(ar_op) => ar_op.to_rust(),
             });
             if needed_wrap {string.push(syntax::RIGHT_BRACKET); needed_wrap = false;};
             string
@@ -71,12 +96,16 @@ fn clump_to_string(clump: TokenClump) -> String {
             string
         },
         TokenClump::TypeClump(var) => {
-            String::new()
+            let mut string = String::new();
+            string.push_str(var.name.as_str());
+            string.push_str(": ");
+            string.push_str(var.prim.to_rust());
+            string
         }
     }
 }
 
-/* Turns primitive type token into string.
+/* Turns primitive type token into string. Hopefully unneccesary.
  */
 fn prim_to_string(prim: PrimitiveType) -> String {
     match prim {

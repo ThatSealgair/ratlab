@@ -225,6 +225,10 @@ pub mod header {
                 Syntax::DoubleQuote => syntax::DOUBLE_QUOTE,
             }
         }
+
+        pub fn to_rust(&self) -> &str {
+            self.to_char().to_string().as_str()
+        }
     }
 
     pub mod syntax {
