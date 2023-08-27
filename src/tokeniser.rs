@@ -203,7 +203,7 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
     for line in data.iter() {
         let mut is_token = false;
         let mut token = Vec::new();
-
+        
         for ch in line.chars() {
             match ch {
                 TAB => {

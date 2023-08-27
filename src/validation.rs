@@ -15,6 +15,37 @@ fn has_token(line: &Vec<TokenType>, index: usize, token_type: TokenType) -> bool
     }
 }
 
+fn token_position_in_vector(line: &Vec<TokenType>, start_pos: usize, token_type: TokenType) -> Result<usize, bool> {
+    let mut index = start_pos + 1;
+    for token in line.iter().skip(start_pos) {
+        if *token == token_type {
+            return Ok(index)
+        }
+        else {
+            index += 1;
+        }
+    }
+
+    return Err(false)
+}
+
+fn get_token_slice(line: &Vec<TokenType>, start_pos: usize, end_pos: usize) -> TokenType {
+    let mut identifier_string: String = String::new();
+    let mut index = start_pos;
+
+    for token in line.iter().skip(start_pos - 1) {
+        
+        index += 1;
+        if index == end_pos {
+            break;
+        }
+    }
+
+    println!("{}", identifier_string);
+
+    return TokenType::Identifier(identifier_string)
+}
+
 fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
     let line_length: usize = line.len() - 1;
     let mut combined_tokens: Vec<TokenType> = Vec::new();
@@ -54,13 +85,16 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                             panic!("Invalid syntax!");
                         }
                         else {
-                            if (quote_pos != 0) {
+                            if quote_pos != 0 {
                                 panic!("Invalid syntax!");
                             }
                             else {
-                                quote_pos = token_position_in_vector(&line, position, TokenType::Syntax(Syntax::Quote));
+                                match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::Quote)) {
+                                    Ok(pos) => quote_pos = pos,
+                                    Err(_) => panic!("Quote syntax error!"),
+                                }
                             }
-                            combined_tokens.append(get_token_slice(&line, position, quote_pos));
+                            combined_tokens.push(get_token_slice(&line, position, quote_pos).clone());
                             position = position + quote_pos;
                         }
                     },
@@ -69,14 +103,17 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                             panic!("Invalid syntax!");
                         }
                         else {
-                            if (d_quote_pos != 0) {
+                            if d_quote_pos != 0 {
                                 panic!("Invalid syntax!");
                             }
                             else {
-                                d_quote_pos = token_position_in_vector(&line, position, TokenType::Syntax(Syntax::DoubleQuote));
+                                match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::DoubleQuote)) {
+                                        Ok(pos) => d_quote_pos = pos,
+                                        Err(_) => panic!("Double quote syntax error!"),
+                                    }
                             }
-                            combined_tokens.append(get_token_slice(&line, position, quote_pos));
-                            position = position + quote_pos;
+                            combined_tokens.push(get_token_slice(&line, position, quote_pos).clone());
+                            position = position + d_quote_pos;
                         }
                     }
                     _ => {
