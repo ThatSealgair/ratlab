@@ -226,8 +226,8 @@ pub mod header {
             }
         }
 
-        pub fn to_rust(&self) -> &str {
-            self.to_char().to_string().as_str()
+        pub fn to_rust(&self) -> String {
+            self.to_char().to_string()
         }
     }
 

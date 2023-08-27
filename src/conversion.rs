@@ -22,7 +22,7 @@ pub fn ratlab_conversion(tokens: Vec<Vec<TokenType>>) -> Vec<String> {
         let mut line_string: String = String::new();
         let (clump, _) = token_clump(&line, 0usize);
         let is_dec: bool = match clump {
-            TokenClump::Clump(var) => {
+            TokenClump::Clump(ref var) => {
                 match var.first() {
                     Some(TokenClump::TypeClump(_)) => true,
                     _ => false,
@@ -42,16 +42,19 @@ pub fn ratlab_conversion(tokens: Vec<Vec<TokenType>>) -> Vec<String> {
 /* Iterates through a line, breaking it into clumps
  */
 fn token_clump(tokens: &Vec<TokenType>, index: usize) -> (TokenClump, usize) {
-    let clumps: Vec<TokenClump> = Vec::new();
+    let mut clumps: Vec<TokenClump> = Vec::new();
     let mut i: usize = index;
     let mut iterator = tokens[index..].iter();
-    for token in iterator {
-        let (clump_vec, _) = match *token {
+    loop {
+        let token = match iterator.next() {
+            Some(var) => var,
+            None => break,
+        };
+        let (clump_vec, _) = match token {
             TokenType::Syntax(Syntax::LeftBracket) => token_clump(tokens, i + 1usize),
             TokenType::Syntax(Syntax::RightBracket) => return (TokenClump::Clump(clumps), i + 1usize),
             TokenType::PrimitiveType(var) => {
-                let mut typing: Typing;
-                typing.prim = var;
+                let mut typing: Typing = Typing {prim: var.clone(), name: "".to_string()};
                 iterator.next();
                 typing.name = match iterator.next() {
                     Some(TokenType::Identifier(val)) => val.to_string(),
@@ -59,8 +62,9 @@ fn token_clump(tokens: &Vec<TokenType>, index: usize) -> (TokenClump, usize) {
                 };
                 (TokenClump::TypeClump(typing), i)
             },
-            var => (TokenClump::Single(var), i),
+            var => (TokenClump::Single(var.clone()), i),
         };
+        clumps.push(clump_vec);
         i += 1;
     }
     (TokenClump::Clump(clumps), i)
@@ -76,13 +80,13 @@ fn clump_to_string(clump: TokenClump) -> String {
             let mut string = String::new();
             if needs_wrap {string.push(syntax::LEFT_BRACKET); needed_wrap = true; needs_wrap = false;};
             string.push_str(match var {
-                TokenType::PrimitiveType(prim) => prim.to_rust(),
-                TokenType::Conditional(cond) => cond.to_rust(),
+                TokenType::PrimitiveType(prim) => prim.to_rust().to_string(),
+                TokenType::Conditional(cond) => cond.to_rust().to_string(),
                 TokenType::Syntax(syn) => syn.to_rust(),
-                TokenType::Identifier(ident) => ident.as_str(),
-                TokenType::Statements(stm) => stm.to_rust(),
-                TokenType::ArithmeticOperator(ar_op) => ar_op.to_rust(),
-            });
+                TokenType::Identifier(ident) => ident,
+                TokenType::Statements(stm) => stm.to_rust().to_string(),
+                TokenType::ArithmeticOperator(ar_op) => ar_op.to_rust().to_string(),
+            }.as_str());
             if needed_wrap {string.push(syntax::RIGHT_BRACKET); needed_wrap = false;};
             string
         },
