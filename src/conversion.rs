@@ -55,8 +55,12 @@ fn token_clump(tokens: &Vec<TokenType>, index: usize) -> (TokenClump, usize) {
             Some(var) => var,
             None => break,
         };
-        let (clump_vec, _) = match token {
-            TokenType::Syntax(Syntax::LeftBracket) => token_clump(tokens, i + 1usize),
+        let (clump_vec, clump_end) = match token {
+            TokenType::Syntax(Syntax::LeftBracket) => {
+                let ret = token_clump(tokens, i + 1usize);
+                for _ in i..ret.1 {iterator.next();}
+                ret
+            },
             TokenType::Syntax(Syntax::RightBracket) => return (TokenClump::Clump(clumps), i + 1usize),
             TokenType::PrimitiveType(var) => {
                 let mut typing: Typing = Typing {prim: var.clone(), name: "".to_string()};
@@ -70,13 +74,8 @@ fn token_clump(tokens: &Vec<TokenType>, index: usize) -> (TokenClump, usize) {
             },
             var => (TokenClump::Single(var.clone()), i),
         };
-        let clump_size = match &clump_vec {
-            TokenClump::Single(_) => 1usize,
-            TokenClump::Clump(var) => var.len(),
-            TokenClump::TypeClump(_) => 1usize,
-        };
         clumps.push(clump_vec);
-        i += clump_size;
+        i += clump_end - i + 1;
     }
     (TokenClump::Clump(clumps), i)
 }
