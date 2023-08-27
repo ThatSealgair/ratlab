@@ -111,7 +111,6 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                                         Ok(pos) => d_quote_pos = pos,
                                         Err(_) => panic!("Double quote syntax error!"),
                                     }
-                                println!("Current position {}", position);
                                 while position < d_quote_pos + 1 {
 
                                     combined_tokens.push(line.index(position).clone());
