@@ -203,10 +203,11 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
     for line in data.iter() {
         let mut is_token = false;
         let mut token = Vec::new();
-        
+        println!("New line");
         for ch in line.chars() {
             match ch {
                 TAB => {
+                    println!("I see tab!");
                     if is_token {
                         array.push(
                             tokenize_string(token
@@ -220,6 +221,7 @@ pub fn tokenize(data: Vec<String>) -> Vec<Vec<TokenType>> {
                     array.push(TokenType::Syntax(Syntax::Tab));
                 },
                 SPACE => {
+                    println!("I see space!");
                     if is_token {
                         array.push(
                             tokenize_string(token

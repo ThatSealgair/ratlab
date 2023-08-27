@@ -160,7 +160,6 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
     position += 1;
 
     while position < line_length {
-        println!("position {}", position);
         match *line.index(position) {
             TokenType::Syntax(_) => {
                 match *line.index(position) {
@@ -174,8 +173,8 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
                     TokenType::Syntax(Syntax::SemiColon) => {
                         panic!("Semi Colon Invalid syntax!");
                     },
-                    TokenType::Syntax(Syntax::LeftBrace) => {
-                        match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::RightBrace)) {
+                    TokenType::Syntax(Syntax::LeftBracket) => {
+                        match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::RightBracket)) {
                             Ok(pos) => brace_pos = pos,
                             Err(_) => panic!("Invalid braces!"),
                         }
@@ -216,12 +215,10 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) -> Vec<Vec<TokenType>> {
                     println!("Syntax!");
                 },
                 TokenType::PrimitiveType(_) => {
-                    println!("Primitive!");
                     current_line = primitive_start(line.clone());
                     
                 },
                 TokenType::Identifier(_) => {
-                    println!("Identifier!");
                     current_line = identifier_start(line.clone());
                 },
                 TokenType::Statements(_) => {
@@ -235,9 +232,9 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) -> Vec<Vec<TokenType>> {
                 }
             }
         }
-        println!("I am appending a valid line!");
 
         valid_lines.push(current_line.clone());
+        current_line.clear();
     }
 
     return valid_lines
