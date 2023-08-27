@@ -13,15 +13,13 @@ fn main() {
     }
     let lines: Vec<String> = ratlab_input(args[1].as_str());
 
-    let mut tokens: Vec<Vec<TokenType>> = tokenize(lines);
-    ratlab_validation(tokens); 
-
-    //println!("Contents of {} are:", args[1].as_str());
-    //println!("----------");
+    let tokens: Vec<Vec<TokenType>> = tokenize(lines);
+    let validated: Vec<Vec<TokenType>> = ratlab_validation(tokens);
+    let outputs: Vec<String> = ratlab_conversion(validated);
     
-    //let mut index = 0;
-    //for line in lines.iter() {
-    //    println!("{index} | {line}");
-    //    index += 1;
-    //}
+    let i: u16 = 0;
+    for line in outputs {
+        i += 1;
+        println!("{} | {}", i, line);
+    }
 }
