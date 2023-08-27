@@ -18,7 +18,6 @@ pub mod header {
         ArithmeticOperator(ArithmeticOperator),
         Conditional(Conditional),
         Identifier(String),
-        NewLine,
     }
 
 
@@ -43,6 +42,26 @@ pub mod header {
         INT64,
         UINT64,
         STRING,
+    }
+
+    impl PrimitiveType {
+        pub fn to_rust(&self) -> &str {
+            match self {
+                PrimitiveType::BOOL => "bool",
+                PrimitiveType::CHAR => "char",
+                PrimitiveType::INT8 => "i8",
+                PrimitiveType::UINT8 => "u8",
+                PrimitiveType::INT16 => "i16",
+                PrimitiveType::UINT16 => "u16",
+                PrimitiveType::INT32 => "i32",
+                PrimitiveType::UINT32 => "u32",
+                PrimitiveType::INT64 => "i64",
+                PrimitiveType::UINT64 => "u64",
+                PrimitiveType::SINGLE => "f32",
+                PrimitiveType::DOUBLE => "f64",
+                PrimitiveType::STRING => "String",
+            }
+        }
     }
 
     #[derive(Clone, PartialEq, Eq)]
@@ -120,7 +139,7 @@ pub mod header {
                 ArithmeticOperator::Plus => "+",
                 ArithmeticOperator::Minus => "-",
                 ArithmeticOperator::Times => "*",
-                ArithmeticOperator::Power => ".pow()",
+                ArithmeticOperator::Power => ".pow",
             }
         }
     }
@@ -152,6 +171,21 @@ pub mod header {
                 Statements::Default => statements::DEFAULT,
                 Statements::Function => statements::FN,
                 Statements::Close => statements::CLOSE,
+            }
+        }
+
+        pub fn to_rust(&self) -> &str {
+            match self {
+                Statements::While => "while",
+                Statements::For => "for",
+                Statements::If => "if",
+                Statements::Else => "else",
+                Statements::ElseIf => "else if",
+                Statements::Switch => "switch",
+                Statements::Case => "case",
+                Statements::Default => "default",
+                Statements::Function => "fn",
+                Statements::Close => "",
             }
         }
     }
@@ -217,7 +251,7 @@ pub mod header {
         pub const END_COMMENT: &str = "%}";
     }
 
-    pub mod primatives {
+    pub mod primitives {
         pub const CHAR: &str = "ch_ter";
         pub const BOOL: &str = "_log-boo_";
         pub const INT_8: &str = "8b-int";
