@@ -33,7 +33,12 @@ pub fn ratlab_conversion(tokens: Vec<Vec<TokenType>>) -> Vec<String> {
         if is_dec {
             line_string.push_str("let mut ");
         }
-        line_string.push_str(clump_to_string(clump).as_str());
+        let text: String = clump_to_string(clump);
+        let line_len: usize = text.len();
+        line_string.push_str(&text[1..line_len-1]);
+        if line_len > 2 {
+            line_string.push(';');
+        }
         lines.push(line_string);
     }
     lines
@@ -60,12 +65,18 @@ fn token_clump(tokens: &Vec<TokenType>, index: usize) -> (TokenClump, usize) {
                     Some(TokenType::Identifier(val)) => val.to_string(),
                     _ => panic!("Not validated right."),
                 };
+                i += 2;
                 (TokenClump::TypeClump(typing), i)
             },
             var => (TokenClump::Single(var.clone()), i),
         };
+        let clump_size = match &clump_vec {
+            TokenClump::Single(_) => 1usize,
+            TokenClump::Clump(var) => var.len(),
+            TokenClump::TypeClump(_) => 1usize,
+        };
         clumps.push(clump_vec);
-        i += 1;
+        i += clump_size;
     }
     (TokenClump::Clump(clumps), i)
 }
