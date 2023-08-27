@@ -16,9 +16,10 @@ fn has_token(line: &Vec<TokenType>, index: usize, token_type: TokenType) -> bool
 }
 
 fn token_position_in_vector(line: &Vec<TokenType>, start_pos: usize, token_type: TokenType) -> Result<usize, bool> {
-    let mut index = start_pos + 1;
-    for token in line.iter().skip(start_pos) {
+    let mut index = start_pos;
+    for token in line.iter().skip(start_pos + 1) {
         if *token == token_type {
+            index += 1;
             return Ok(index)
         }
         else {
@@ -33,15 +34,13 @@ fn get_identifier_slice(line: &Vec<TokenType>, start_pos: usize, end_pos: usize)
     let mut identifier_string: String = String::new();
     let mut index = start_pos;
 
-    for token in line.iter().skip(start_pos - 1) {
+    for token in line.iter().skip(start_pos + 1) {
         
         index += 1;
         if index == end_pos {
             break;
         }
     }
-
-    println!("{}", identifier_string);
 
     return TokenType::Identifier(identifier_string)
 }
@@ -94,8 +93,9 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                                     Err(_) => panic!("Quote syntax error!"),
                                 }
                             }
+                            combined_tokens.push(line.index(position).clone());
                             combined_tokens.push(get_identifier_slice(&line, position, quote_pos).clone());
-                            position = position + quote_pos;
+                            combined_tokens.push(line.index(position).clone());
                         }
                     },
                     TokenType::Syntax(Syntax::DoubleQuote) => {
@@ -104,16 +104,20 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
                         }
                         else {
                             if d_quote_pos != 0 {
-                                panic!("Invalid syntax! Double quotes set!");
+                                //panic!("Invalid syntax! Double quotes set!");
                             }
                             else {
                                 match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::DoubleQuote)) {
                                         Ok(pos) => d_quote_pos = pos,
                                         Err(_) => panic!("Double quote syntax error!"),
                                     }
+                                println!("Current position {}", position);
+                                while position < d_quote_pos + 1 {
+
+                                    combined_tokens.push(line.index(position).clone());
+                                    position += 1;
+                                }
                             }
-                            combined_tokens.push(get_identifier_slice(&line, position, quote_pos).clone());
-                            position = position + d_quote_pos;
                         }
                     }
                     _ => {
@@ -174,12 +178,10 @@ fn identifier_start(line: Vec<TokenType>) -> Vec<TokenType> {
                         panic!("Semi Colon Invalid syntax!");
                     },
                     TokenType::Syntax(Syntax::LeftBracket) => {
-                        match token_position_in_vector(&line, position, TokenType::Syntax(Syntax::RightBracket)) {
-                            Ok(pos) => brace_pos = pos,
-                            Err(_) => panic!("Invalid braces!"),
-                        }
-                        combined_tokens.push(get_identifier_slice(&line, position, brace_pos).clone());
-                        position = position + brace_pos;
+                        combined_tokens.push(line.index(position).clone());
+                    },
+                    TokenType::Syntax(Syntax::RightBracket) => {
+                        combined_tokens.push(line.index(position).clone());
                     },
                     _ => {
                         panic!("Invalid Syntax for function call!");
@@ -232,7 +234,6 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) -> Vec<Vec<TokenType>> {
                 }
             }
         }
-
         valid_lines.push(current_line.clone());
         current_line.clear();
     }
