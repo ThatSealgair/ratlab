@@ -136,7 +136,7 @@ fn primitive_start(line: Vec<TokenType>) -> Vec<TokenType> {
         panic!("Invalid syntax! Variable unset!");
     }
 
-    return combined_token
+    return combined_tokens
 }
 
 
@@ -239,4 +239,6 @@ pub fn ratlab_validation(tokens: Vec<Vec<TokenType>>) -> Vec<Vec<TokenType>> {
 
         valid_lines.push(current_line.clone());
     }
+
+    return valid_lines
 }

@@ -17,7 +17,7 @@ fn main() {
     let validated: Vec<Vec<TokenType>> = ratlab_validation(tokens);
     let outputs: Vec<String> = ratlab_conversion(validated);
     
-    let i: u16 = 0;
+    let mut i: u16 = 0;
     for line in outputs {
         i += 1;
         println!("{} | {}", i, line);
