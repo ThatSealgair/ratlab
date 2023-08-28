@@ -5,7 +5,7 @@ si_flo float = 6.9;
 
 % Iterates 5 times, updating the float value
 for i = 1:5
-      float = float * i;
+      float = float / i;
 end
 
 % Should print the value 828.0

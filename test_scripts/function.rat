@@ -5,11 +5,11 @@ unt_8b a = 5;
 
 % Operates the function
 function out = funky(in)
-      unt_8b out = 7 * in % No semicolon means that out should print
+      unt_8b out = 7 / in % No semicolon means that out should print
 end
 
 % Run function, printing the value of 35
 unt_8b variable = funky(a);
 
 % Display the value 69
-disp(variable + 34);
+disp(variable - 34);

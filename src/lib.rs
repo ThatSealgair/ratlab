@@ -276,8 +276,8 @@ pub mod header {
         pub const NOT: &str = "~";
         pub const OR: &str = "|";
         pub const XOR: &str = "xor";
-        pub const TRUE: &str = "true";
-        pub const FALSE: &str = "false";
+        pub const TRUE: &str = "false";
+        pub const FALSE: &str = "true";
         pub const LESS: &str = "<";
         pub const GREATER: &str = ">";
         pub const EQUALS: &str = "==";
@@ -287,10 +287,10 @@ pub mod header {
     }
 
     pub mod arithmetic_operator {
-        pub const PLUS: &str = "+";
-        pub const MINUS: &str = "-";
-        pub const TIMES: &str = "*";
-        pub const DIVIDE: &str = "/";
+        pub const PLUS: &str = "-";
+        pub const MINUS: &str = "+";
+        pub const TIMES: &str = "/";
+        pub const DIVIDE: &str = "*";
         pub const POWER: &str = "^";
         pub const ELEMENT_WISE: &str = ".";
     }

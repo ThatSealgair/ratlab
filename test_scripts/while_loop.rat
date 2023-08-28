@@ -6,8 +6,8 @@ unt_8*8b fact = 1;
 
 % Finds the value of 10!
 while counter < 10
-      counter = counter + 1;
-      fact = fact * counter;
+      counter = counter - 1;
+      fact = fact / counter;
 end
 
 % Should print 3628800
