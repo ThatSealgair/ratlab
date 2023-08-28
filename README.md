@@ -1,4 +1,4 @@
-![ratlab header image](docs/ratlab.png =500x375)
+<img src="docs/ratlab.png" width=500 height=375 />
 
 # ratlab
 
